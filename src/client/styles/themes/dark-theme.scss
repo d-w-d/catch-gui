@@ -1,0 +1,150 @@
+// @import '~@angular/material/theming';
+
+// See light theme for how to generate this
+$dark-primary-map: (
+  50: #e7ebf0,
+  100: #c3ced9,
+  200: #9badbf,
+  300: #738ca5,
+  400: #557392,
+  500: #375a7f,
+  600: #315277,
+  700: #2a486c,
+  800: #233f62,
+  900: #162e4f,
+  A100: #8bb8ff,
+  A200: #5898ff,
+  A400: #2579ff,
+  A700: #0c69ff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #ffffff,
+    A700: #ffffff
+  )
+);
+
+// $dark-accent-map: (
+//   50: #e9e9e9,
+//   100: #c7c7c7,
+//   200: #a2a2a2,
+//   300: #7c7c7c,
+//   400: #606060,
+//   500: #444444,
+//   600: #3e3e3e,
+//   700: #353535,
+//   800: #2d2d2d,
+//   900: #1f1f1f,
+//   A100: #f07a7a,
+//   A200: #eb4c4c,
+//   A400: #ff0505,
+//   A700: #eb0000,
+//   contrast: (
+//     50: #000000,
+//     100: #000000,
+//     200: #000000,
+//     300: #ffffff,
+//     400: #ffffff,
+//     500: #ffffff,
+//     600: #ffffff,
+//     700: #ffffff,
+//     800: #ffffff,
+//     900: #ffffff,
+//     A100: #000000,
+//     A200: #ffffff,
+//     A400: #ffffff,
+//     A700: #ffffff
+//   )
+// );
+
+$dark-accent-map: (
+  50: #fef6ed,
+  100: #fce8d3,
+  200: #fbd9b5,
+  300: #f9c997,
+  400: #f7be81,
+  500: #f6b26b,
+  600: #f5ab63,
+  700: #f3a258,
+  800: #f2994e,
+  900: #ef8a3c,
+  A100: #ffffff,
+  A200: #ffffff,
+  A400: #ffe7d5,
+  A700: #ffd8bc,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #000000,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000
+  )
+);
+
+$dark-warn-map: (
+  50: #fde0e0,
+  100: #f9b3b3,
+  200: #f58080,
+  300: #f14d4d,
+  400: #ee2626,
+  500: #eb0000,
+  600: #e90000,
+  700: #e50000,
+  800: #e20000,
+  900: #dd0000,
+  A100: #ffffff,
+  A200: #ffd1d1,
+  A400: #ff9e9e,
+  A700: #ff8585,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000
+  )
+);
+
+// Convert maps into 'palettes'
+
+// Custom palettes
+$dark-primary-palette: mat-palette($dark-primary-map);
+$dark-accent-palette: mat-palette($dark-accent-map);
+$dark-accent-palette: mat-palette($mat-green);
+$dark-warn-palette: mat-palette($dark-warn-map);
+
+// Conventional palettes
+// $dark-primary-palette: mat-palette($mat-indigo);
+// $dark-accent-palette: mat-palette($mat-pink);
+// $dark-warn-palette: mat-palette($mat-red);
+
+// Create 'theme' from palettes
+$app-dark-theme: mat-dark-theme($dark-primary-palette, $dark-accent-palette, $dark-warn-palette);

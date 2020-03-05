@@ -1,0 +1,5 @@
+#! /bin/bash
+
+./_inject_build_time_vars
+
+ng serve --port 4200 --configuration hmr

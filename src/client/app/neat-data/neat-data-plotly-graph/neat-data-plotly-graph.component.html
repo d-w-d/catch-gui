@@ -1,0 +1,15 @@
+<div id="suburban-expander">
+  <ng-container *ngIf="plotlySetting$ | async as plotlySettings">
+    <plotly-plot
+      [ngClass]="{
+        sizeDeterminer: true,
+        hideDisplayBar: plotlySettings.isMiniMode
+      }"
+      [data]="plotlySettings.data"
+      [layout]="plotlySettings.layout"
+      [config]="plotlySettings.config"
+    >
+    </plotly-plot>
+    <div *ngIf="plotlySettings.isMiniMode" class="miniModeCovering"></div>
+  </ng-container>
+</div>

@@ -1,60 +1,47 @@
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
-<p>about-page works!</p>
+<div class="about-container">
+  <h2>ABOUT</h2>
+  <p>
+    CATCH is a moving target search tool for large data sets, such as time-domain or near-Earth
+    object surveys. For a given target, CATCH identifies images that cover the ephemeris position.
+    Use CATCH to help identify pre-discovery detections, to examine past cometary activity, or to
+    understand why a survey did not detect or report observations of an object. CATCH has an
+    interactive web-based interface and a fully featured API for end user's applications.
+  </p>
+
+  <h2>
+    CATCH limitations and caveats
+  </h2>
+  <p>
+    CATCH does not perform detection-based searches, i.e., it cannot determine if an object was
+    observed. Instead, it identifies images that
+    <em>could</em> have observed a target, based the ephemeris. This search requires that the
+    ephemeris correctly describes the target's motion on the sky. CATCH properly considers the
+    source data observatory when computing ephemerides. CATCH does not consider ephemeris
+    uncertainties in the search. This capability has been reserved for a future enhancement.
+  </p>
+
+  <h2>Data sources</h2>
+
+  <p>
+    Near-Earth Asteroid Tracking (NEAT) survey data is from the NASA Planetary Data System archive
+    of <a href="https://sbn.psi.edu/pds/resource/neat.html">Bauer and Lawrence</a> (2013):
+  </p>
+  <ul>
+    <li>
+      NEAT <abbr title="Ground-based Electro-Optical Deep Space Surveillance">GEODSS</abbr>,
+      Haleakala Observatory, April 1996 &ndash; May 1998.
+    </li>
+    <li>NEAT Palomar Tri-Cam, Palomar Observatory, November 2001 &ndash March 2003.</li>
+  </ul>
+
+  <h2>
+    Acknowledgements
+  </h2>
+  <p>
+    This software is built entirely through open-source resources, and so we thank all of the
+    authors in the JS/python community. Special thanks to Eric Mandel for building the JS9 fits-file
+    tool and for his assistance in integrating it into this
+    <a href="https://en.wikipedia.org/wiki/Angular_(web_framework)">angular</a>
+    <a href="https://en.wikipedia.org/wiki/Single-page_application"> SPA</a>.
+  </p>
+</div>

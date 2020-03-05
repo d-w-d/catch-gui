@@ -2,54 +2,16 @@
 
 clear
 
-option=$1
-
-if [[ -z $option ]]; then
-
-  echo """
-======================================================================
-Choose a number for what you want to provision via terraform:
-
-1. Static Site (S3+Cloudfront)
-2. Lambda Emailer
-
-(Note: you can pass a number straight through as script argument)
-======================================================================
-
-"""
-  read option
-fi
-
-# Validate option
-if [[ $option =~ ^[0-9]+$ && $option -ge 1 && $option -le 2 ]]; then
-
-  # Set params based on selected option
-  if [[ $option = 1 ]]; then
-    script_path=terraform/static_site
-    entity="Static Site"
-  fi
-  if [[ $option = 2 ]]; then
-    script_path=terraform/lambda_emailer
-    entity="Lambda Emailer"
-  fi
-
-else
-  echo "You needed a number between 1-2"
-  exit
-fi
-
 # Ensure the terraform dirs have been initialized
-if [[ ! -d $script_path/.terraform ]]; then
-  echo $script_path
-  terraform init $script_path/
+if [[ ! -d .terraform ]]; then
+  terraform init tf_scripts
 fi
 
 # Define pause-messaging function
 function pause_before_next_stage() {
   echo -e """
     =======================================
-    PROVISIONING FOR: ${1}
-    READY FOR NEXT STAGE: ${2}
+    READY FOR NEXT STAGE: ${1}
 
     \033[32mNow is a safe time to quit.\033[0m
     \033[31mDo NOT quit while terraform is running!\033[0m
@@ -71,9 +33,9 @@ function pause_before_next_stage() {
 source .env
 
 # Plan
-pause_before_next_stage $entity "terraform plan"
-terraform plan $script_path
+pause_before_next_stage "terraform plan"
+terraform plan tf_scripts
 
 # Apply
-pause_before_next_stage $entity "terraform apply"
-terraform apply $script_path
+pause_before_next_stage "terraform apply"
+terraform apply tf_scripts

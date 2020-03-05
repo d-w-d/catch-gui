@@ -1,24 +1,21 @@
-@import '~@angular/material/theming';
-
 @mixin app-header-component-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
-  $base-background-color: mat-color($primary, darker);
 
   app-header {
-    mat-toolbar {
-      // background: mat-color($primary, lighter);
-      // background-color: mat-color($primary);
-      background-color: red;
-
-      button {
-        &.active {
-          // color: mat-color($accent, default-contrast);
-          // background-color: mat-color($accent);
-          background-color: red;
-        }
-      }
+    //
+    // Never forget the following points!!!
+    //
+    // 1. We have multiple class names here because you need to be at least as specific
+    // as the existing css rule provided by _theming.scss in order to override it!!!
+    //
+    // 2. Because we are darkening the background here with the primary variant,
+    // we also need the `color="primary"` directive on the mat-toolbar tag
+    // in order that ALL children inherit the appropriate color for displaying fonts, etc.
+    //
+    mat-toolbar.main-mat-toolbar.mat-toolbar {
+      background: mat-color($primary, darker);
 
       .link {
         color: mat-color($primary, default-contrast);

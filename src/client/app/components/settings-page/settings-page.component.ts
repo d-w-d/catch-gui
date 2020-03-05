@@ -1,11 +1,17 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+
 import { AppState } from '../../ngrx/reducers';
-import { selectSiteTheme } from '../../ngrx/selectors';
 import { TPermittedTheme, permittedThemes } from '../../models/site-settings.model';
-import { SetSiteTheme } from '../../ngrx/actions/site-settings.actions';
-import { MatSelectChange } from '@angular/material';
-import { take } from 'rxjs/operators';
+import {
+  SiteSettingsSetSiteTheme,
+  SiteSettingsSetIsAutoNightMode
+} from '../../ngrx/actions/site-settings.actions';
+import {
+  selectSiteSettingsTheme,
+  selectSiteSettingsIsAutoNightMode
+} from '@client/app/ngrx/selectors/site-settings.selectors';
 
 @Component({
   selector: 'app-settings-page',
@@ -13,28 +19,36 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./settings-page.component.scss']
 })
 export class SettingsPageComponent implements OnInit {
-  //
-
-  selectedSiteTheme: TPermittedTheme;
   routeAnimationsElements = '';
-  permittedThemes = permittedThemes.filter(el => el !== 'DEFAULT-THEME');
+  selectedSiteTheme: TPermittedTheme;
+  permittedThemes: TPermittedTheme[];
+  isAutoNightMode = false;
 
   constructor(private store: Store<AppState>) {
+    this.store.select(selectSiteSettingsTheme).subscribe(siteTheme => {
+      this.selectedSiteTheme = siteTheme;
+      this.permittedThemes = siteTheme.includes('DARK')
+        ? permittedThemes
+        : permittedThemes.reverse();
+    });
+
     this.store
-      .select(selectSiteTheme)
-      .pipe(take(1))
-      .subscribe(siteTheme => {
-        this.selectedSiteTheme = siteTheme;
-      });
+      .select(selectSiteSettingsIsAutoNightMode)
+      .subscribe(isAutoNightMode => (this.isAutoNightMode = isAutoNightMode));
   }
 
-  ngOnInit() {
-    setTimeout(() => {
-      // This shouldnt make a difference but it does cause refresh of component!!!
-    }, 0);
+  ngOnInit() {}
+
+  onThemeSelect(choice: any) {
+    this.store.dispatch(new SiteSettingsSetSiteTheme({ theme: choice.value }));
   }
 
-  onThemeSelect(choice: MatSelectChange) {
-    this.store.dispatch(new SetSiteTheme(choice.value));
+  getIconStyle() {
+    const style = { color: this.selectedSiteTheme === 'DARK-THEME' ? 'white' : 'black' };
+    return style;
+  }
+
+  onAutoNightModeToggle(event: MatSlideToggleChange) {
+    this.store.dispatch(new SiteSettingsSetIsAutoNightMode({ isAutoNightMode: event.checked }));
   }
 }

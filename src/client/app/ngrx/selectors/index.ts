@@ -1,27 +1,11 @@
-import { createSelector } from '@ngrx/store';
-import { AppState } from '../reducers';
-import { ITestUserSubstate } from '../reducers/test-user/test-user.reducer';
-import { ISiteSettingsSubstate } from '../reducers/site-settings/site-settings.reducer';
-
 /**
  *
- * Memoized Selectors
+ * This dir is for memoized Selectors
  *
  * See: https://ngrx.io/guide/store/selectors
  *
+ * We're organized selectors by file for each substate of AppState
+ * as defined in `reducers/index.ts`. Put selectors in this file
+ * that mix selectors for different substates
+ *
  */
-
-export const selectTestUserList = createSelector(
-  (state: AppState) => state.testUserSubstate,
-  (substate: ITestUserSubstate) => substate.testUsers
-);
-
-export const selectTestUserEveryOtherList = createSelector(
-  (state: AppState) => state.testUserSubstate,
-  (substate: ITestUserSubstate) => substate.testUsers.filter((el, ind) => ind % 2 !== 0)
-);
-
-export const selectSiteTheme = createSelector(
-  (state: AppState) => state.siteSettingsSubstate,
-  (substate: ISiteSettingsSubstate) => substate.siteTheme
-);

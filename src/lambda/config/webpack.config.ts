@@ -36,7 +36,11 @@ export const clientWebpackConfig: WebpackConfiguration = {
       whitelist: [
         // Include here string names of any node packages you want to include in bundle
         // You do NOT need 'aws-sdk' libraries!
-        'tslib'
+        'tslib',
+        'axios',
+        'follow-redirects',
+        'debug',
+        'ms'
       ]
     })
   ],

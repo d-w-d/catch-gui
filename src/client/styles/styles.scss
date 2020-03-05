@@ -1,0 +1,66 @@
+/* 3rd PARTY IMPORTS */
+
+@import '~normalize-scss/sass/_normalize';
+@import '~bootstrap/scss/bootstrap-reboot';
+@import '~bootstrap/scss/bootstrap-grid';
+
+/* GLOBAL IMPORTS */
+
+@import 'styles-variables';
+@import 'styles-hack';
+@import 'styles-reset';
+@import 'styles-router-children';
+
+/* MATERIAL THEMING */
+
+// Import _theming.scss with angular's theming functionality
+// Items used from this import include `mat-core`, `angular-material-theme`
+@import '~@angular/material/theming';
+
+// mat-core is a mixin that renders all of the core styles that are not theme-dependent
+// imported from _theming.scss; this just needs to be included globally once
+@include mat-core();
+
+// Import theme-dependent mixins for customizing components
+// Make sure each such mixin is scoped using its component's selector!
+// By convention, we name each mixin in correspondence to component name
+// E.g. app-entry.component => app-entry-component-theme
+@import './styles-reset.scss-theme';
+@import '../app/app-entry/app-entry.component.scss-theme';
+@import '../app/components/header/header.component.scss-theme';
+@import '../app/components/search-field/search-field.component.scss-theme';
+@import '../app/components/contact-page/contact-page.component.scss-theme';
+@import '../app/components/settings-page/settings-page.component.scss-theme';
+@import '../app/components/fits-graphic/fits-graphic.component.scss-theme.scss';
+@import '../app/neat-data/neat-data-image-wheel/neat-data-image-wheel.component.scss-theme';
+@import '../app/neat-data/neat-data-table/neat-data-table.component.scss-theme.scss';
+
+// Define mixin that implements all custom-component theme-dependent mixins
+@mixin custom-components-theme($theme) {
+  @include app-styles-reset-theme($theme);
+  @include app-entry-component-theme($theme);
+  @include app-header-component-theme($theme);
+  @include app-contact-page-component-theme($theme);
+  @include app-search-field-component-theme($theme);
+  @include app-settings-page-component-theme($theme);
+  @include app-neat-data-image-wheel-component-theme($theme);
+  @include app-neat-data-table-component-theme($theme);
+  @include app-fits-graphic-component-theme($theme);
+}
+
+// Import individual $theme maps
+@import 'themes/dark-theme'; // $app-dark-theme
+@import 'themes/light-theme'; // $app-light-theme
+
+.dark-theme {
+  // pass theme to mixin that uses it to define styles across all
+  // native material components
+  @include angular-material-theme($app-dark-theme);
+  // Override/augment those styles with theme-derived styles for our components
+  @include custom-components-theme($app-dark-theme);
+}
+
+.light-theme {
+  @include angular-material-theme($app-light-theme);
+  @include custom-components-theme($app-light-theme);
+}

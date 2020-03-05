@@ -1,9 +1,18 @@
-@import '../../styles-variables';
+@import '../../styles/styles-variables';
 
 .theme-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  .loading-overlay {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background-color: rgba(black, 0.5);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 mat-sidenav-container {
@@ -19,31 +28,83 @@ mat-sidenav-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    // background-color: yellow;
+    overflow: hidden;
 
-    /**
-       The following three '-wrapper' divs combine with mat-sidenav-content and its flex-direction-column setting to generate a sticky footer effect. This pattern is taken from [here](https://github.com/CanKattwinkel/material-2-sticky-footer-mat-sidenav)
-    **/
-
-    .header-wrapper {
+    .background-graphic-wrapper {
       position: absolute;
       top: 0px;
       left: 0px;
       right: 0px;
-      z-index: 10;
-      height: $header-height;
-      // background-color: red;
+      height: 100vh;
     }
-    .routed-page-wrapper {
-      margin-top: $header-height;
-      // background-color: pink;
+
+    /**
+      The following three '-wrapper' divs combine with mat-sidenav-content and its flex-direction-column setting to generate a sticky footer effect. This pattern is taken from [here](https://github.com/CanKattwinkel/material-2-sticky-footer-mat-sidenav)
+    **/
+
+    .header-wrapper {
+      position: fixed;
+      top: 0px;
       width: 100%;
+      z-index: 10;
+      height: $header-height-below-600;
+    }
+
+    .routed-content-wrapper {
+      width: 100%;
+      display: flex;
       flex: 1; // child will set to an equal size inside the container
-      padding: 20px 30px;
-      // padding-top: $header-height;
+      margin-top: $header-height;
+      opacity: 0;
     }
+
+    @media (min-width: 600px) {
+      .header-wrapper {
+        height: $header-height;
+      }
+      .routed-content-wrapper {
+        margin-top: $header-height;
+      }
+    }
+
     .footer-wrapper {
-      // background-color: orange;
+      position: relative;
+      z-index: 10;
+      height: $footer-height;
+      max-height: $footer-height;
+      width: 100%;
+      opacity: 1;
+
+      .footer-animator {
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        right: 0px;
+        left: 0px;
+        opacity: 1;
+        overflow: hidden;
+        transition: top 0.25s ease-in-out;
+      }
+
+      .footer-animator-hide {
+        top: $footer-height;
+        transition: top 0s ease-in-out;
+      }
     }
+  }
+}
+
+@keyframes pageFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-25px);
+  }
+  50% {
+    opacity: 1;
+    // transform: translateY(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
   }
 }

@@ -1,0 +1,20 @@
+/**
+ * These media queries are part of a sh**ty hack to determine what color mode the
+ * user has set the OS to. It's used in method `colorPreferenceDeterminator`
+ * in the `app-entry` component
+**/
+@media (prefers-color-scheme: no-preference) {
+  .color-preference-determinator::before {
+    content: 'no-preference';
+  }
+}
+@media (prefers-color-scheme: dark) {
+  .color-preference-determinator::before {
+    content: 'dark';
+  }
+}
+@media (prefers-color-scheme: light) {
+  .color-preference-determinator::before {
+    content: 'light';
+  }
+}

@@ -13,4 +13,4 @@ RUNNING WEBPACK-BUNDLE-ANALYZER
 \033[0m
 """
 
-./node_modules/.bin/webpack-bundle-analyzer ./dist/stats*.json
+./node_modules/.bin/webpack-bundle-analyzer ./dist-local/stats*.json

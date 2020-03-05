@@ -1,0 +1,80 @@
+/*
+  For styling forms, see:
+  https://material.angular.io/components/form-field/overview
+*/
+
+mat-form-field {
+  button {
+    mat-icon {
+      animation: fadeIn 300ms ease-in-out;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.search-form {
+  min-width: 150px;
+  max-width: 250px;
+  width: 100%;
+  margin: auto auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.name-search-result {
+  width: 50%;
+  border: 1px rgba(100, 100, 100, 1) solid;
+  padding: 5px;
+  border-radius: 5px;
+  // font-size: 12px;
+  font-family: 'Lucida Console', Monaco, monospace;
+}
+
+.name-search-result2 {
+  width: 50%;
+  border: 1px rgba(100, 100, 100, 1) solid;
+  padding: 5px;
+  border-radius: 5px;
+  // font-family: 'Lucida Console', Monaco, monospace;
+}
+
+.search-full-width {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  //
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  // flex-direction: column;
+}
+
+.while-loading-content {
+  width: 100px;
+  margin: auto auto;
+}
+
+.xxx {
+  position: absolute;
+  top: -7px;
+  right: 0px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.yyy {
+  background-color: rgba(white, 0.1);
+}

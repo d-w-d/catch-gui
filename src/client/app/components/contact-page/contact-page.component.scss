@@ -1,15 +1,8 @@
-@import '../../../styles-variables.scss';
-
-h1 {
-  margin-top: 25px;
-  margin-bottom: 25px;
-  text-transform: uppercase;
-  // margin: 0 0 20px 0;
-  text-align: center;
-}
+@import '../../../styles/styles-variables';
 
 h2 {
   margin: auto;
+  padding: 30px;
 }
 
 .contact-page-wrapper {
@@ -25,12 +18,13 @@ mat-card {
   margin-bottom: 20px;
 }
 
-mat-checkbox {
-  margin: 10px 0 20px 0;
-}
-mat-slider {
-  width: 100%;
-}
-.buttons {
-  margin: 20px 0px;
+.recaptcha-submit {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 0px;
+
+  button {
+    max-height: 50px;
+  }
 }

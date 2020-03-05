@@ -1,0 +1,14 @@
+@import '~@angular/material/theming';
+
+@mixin app-background-graphic-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  app-background-graphic {
+    .tint-overlay {
+      background-color: rgba(mat-color($background, background), 0.5);
+    }
+  }
+}

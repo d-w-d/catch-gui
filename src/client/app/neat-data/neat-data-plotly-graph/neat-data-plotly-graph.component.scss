@@ -1,0 +1,19 @@
+app-neat-data-plotly-graph {
+  display: block;
+
+  .hideDisplayBar {
+    .modebar {
+      display: none;
+    }
+  }
+
+  .miniModeCovering {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 1;
+    background-color: rgba(255, 0, 0, 0);
+  }
+}

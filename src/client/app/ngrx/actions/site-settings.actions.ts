@@ -1,36 +1,50 @@
 import { Action } from '@ngrx/store';
-import { ISiteSettingsSubstate } from '../reducers/site-settings/site-settings.reducer';
+import { ISiteSettingsSubstate } from '../reducers/site-settings-reducer/site-settings.reducer';
 import { TPermittedTheme } from '../../models/site-settings.model';
 
 export enum ESiteSettingsActionTypes {
-  SetSiteSettings = '[SiteSettings] Set SiteSettings',
-  SetSiteTheme = '[SiteSettings] Set SiteTheme',
-  SetIsPageAnimated = '[SiteSettings] Set IsPageAnimated',
-  LoadSiteSettingsFromLocalStorage = '[SiteSettings] Load SiteSettings From LocalStorage'
+  SiteSettingsSetAll = '[SiteSettings] Set All',
+  SiteSettingsSetHour = '[SiteSettings] Set Hour',
+  SiteSettingsSetSiteTheme = '[SiteSettings] Set SiteTheme',
+  SiteSettingsSetIsPageAnimated = '[SiteSettings] Set IsPageAnimated',
+  SiteSettingsIsAutoNightMode = '[SiteSettings] Set IsAutoNightMode',
+  SiteSettingsLoadAllFromLocalStorage = '[SiteSettings] Load All From LocalStorage'
 }
 
-export class SetSiteSettings implements Action {
-  readonly type = ESiteSettingsActionTypes.SetSiteSettings;
-  constructor(public siteSettings: ISiteSettingsSubstate) {}
+export class SiteSettingsSetAll implements Action {
+  readonly type = ESiteSettingsActionTypes.SiteSettingsSetAll;
+  constructor(public payload: { siteSettings: ISiteSettingsSubstate }) {}
 }
 
-export class SetSiteTheme implements Action {
-  readonly type = ESiteSettingsActionTypes.SetSiteTheme;
-  constructor(public theme: TPermittedTheme) {}
+export class SiteSettingsSetHour implements Action {
+  readonly type = ESiteSettingsActionTypes.SiteSettingsSetHour;
+  constructor(public payload: { hour: number }) {}
 }
 
-export class SetIsPageAnimated implements Action {
-  readonly type = ESiteSettingsActionTypes.SetIsPageAnimated;
-  constructor(public isPageAnimated: boolean) {}
+export class SiteSettingsSetSiteTheme implements Action {
+  readonly type = ESiteSettingsActionTypes.SiteSettingsSetSiteTheme;
+  constructor(public payload: { theme: TPermittedTheme }) {}
 }
 
-export class LoadSiteSettingsFromLocalStorage implements Action {
-  readonly type = ESiteSettingsActionTypes.LoadSiteSettingsFromLocalStorage;
+export class SiteSettingsSetIsPageAnimated implements Action {
+  readonly type = ESiteSettingsActionTypes.SiteSettingsSetIsPageAnimated;
+  constructor(public payload: { isPageAnimated: boolean }) {}
+}
+
+export class SiteSettingsSetIsAutoNightMode implements Action {
+  readonly type = ESiteSettingsActionTypes.SiteSettingsIsAutoNightMode;
+  constructor(public payload: { isAutoNightMode: boolean }) {}
+}
+
+export class SiteSettingsLoadAllFromLocalStorage implements Action {
+  readonly type = ESiteSettingsActionTypes.SiteSettingsLoadAllFromLocalStorage;
   constructor() {}
 }
 
 export type SiteSettingsActions =
-  | SetSiteSettings
-  | SetSiteTheme
-  | SetIsPageAnimated
-  | LoadSiteSettingsFromLocalStorage;
+  | SiteSettingsSetAll
+  | SiteSettingsSetHour
+  | SiteSettingsSetSiteTheme
+  | SiteSettingsSetIsPageAnimated
+  | SiteSettingsSetIsAutoNightMode
+  | SiteSettingsLoadAllFromLocalStorage;

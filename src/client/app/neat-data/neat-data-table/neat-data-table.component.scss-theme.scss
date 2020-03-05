@@ -1,0 +1,13 @@
+@mixin app-neat-data-table-component-theme($theme) {
+  //
+
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  app-neat-data-table {
+    .highlighted-cell {
+      background-color: rgba(mat-color($accent, 800), 0.3);
+    }
+  }
+}

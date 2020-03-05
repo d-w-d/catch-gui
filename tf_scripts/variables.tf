@@ -22,3 +22,7 @@ variable "STATIC_SENDER_EMAIL" {
   description = "Email account 'from' which emails are sent; to be provisioned as .env var in lambda function; supplied by .env file"
 }
 
+variable "RECAPTCHA_SECRET" {
+  description = "If a recaptcha secret key is provided, then the Lambda function will seek to verify a recaptcha token passed from client"
+}
+

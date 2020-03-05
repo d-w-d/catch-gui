@@ -1,0 +1,18 @@
+@import '~@angular/material/theming';
+
+$header-height: 64px;
+$header-height-below-600: 56px;
+$footer-height: 75px;
+
+$success-colors: mat-palette($mat-green, 400);
+$warning-colors: mat-palette($mat-amber, 400);
+
+//Note: 414px for iPhone XR
+$grid-breakpoints: (
+  xs: 0,
+  sm2: 420px,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+);

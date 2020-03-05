@@ -1,0 +1,23 @@
+<ng-container *ngIf="isShown">
+  <div
+    #js9MenubarRef
+    [id]="getDivId('MENUBAR')"
+    [ngClass]="js9MenubarClassName"
+    [attr.data-width]="width + 'px'"
+    data-buttonClass="JS9Button-flat js9-my-menu-button-class"
+  ></div>
+  <div
+    #js9MainRef
+    [id]="getDivId('MAIN')"
+    [ngClass]="js9MainClassName"
+    [attr.data-width]="width + 'px'"
+    [attr.data-height]="width - 44 - 42 + 'px'"
+  ></div>
+  <div
+    #js9ColorbarRef
+    [id]="getDivId('COLORBAR')"
+    [ngClass]="js9ColorbarClassName"
+    [attr.data-width]="width + 'px'"
+    style="background-color: rgba(0,0,0,0); line-height: 0px;"
+  ></div>
+</ng-container>

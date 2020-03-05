@@ -1,0 +1,117 @@
+@import '../../../styles/styles-variables';
+
+:host {
+  position: relative;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.background-image {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  margin: 0;
+  padding: 0;
+  // Add sky color to background
+  background-size: cover;
+  opacity: 1;
+  transition: opacity 1500ms ease-in-out;
+  // background-color: red;
+
+  &.host-dark-theme {
+    background-image: url('src/client/assets/images/jpgs/dark_sky_v0.jpg');
+  }
+
+  &.host-light-theme {
+    background-image: url('src/client/assets/images/jpgs/light_sky_v0.jpg');
+  }
+}
+
+.fade-out {
+  opacity: 0;
+}
+
+.stars-wrapper {
+  transition: opacity 1000ms ease-in-out;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  margin: 0;
+  padding: 0;
+}
+
+.images-wrapper,
+.animated-image {
+  position: absolute;
+  top: 0px;
+  // left: -125%;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  // width: 350%;
+  margin: 0;
+  padding: 0;
+
+  background-size: auto 100%; //Scale to window height
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+//////////////////////
+
+.shaking {
+  /* Start the shake animation and make the animation last for 0.5 seconds */
+  animation: shake 0.5s;
+
+  /* When the animation is finished, start again */
+  animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+  10% {
+    transform: translate(-1px, -2px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
+}

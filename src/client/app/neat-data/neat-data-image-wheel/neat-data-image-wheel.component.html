@@ -1,0 +1,15 @@
+<div
+  class="image-row"
+  [ngStyle]="{
+    overflowY: isVertical ? 'scroll' : 'hidden',
+    overflowX: !isVertical ? 'scroll' : 'hidden',
+    whiteSpace: isVertical ? 'normal' : 'nowrap'
+  }"
+>
+  <div
+    *ngFor="let imageUrl of getImageUrls(); let i = index"
+    (click)="setSelectedIndex(i)"
+    [ngStyle]="getStyleObject(imageUrl, i)"
+    [ngClass]="'mini-image ' + (i === selectedResultIndex ? 'add-border' : '')"
+  ></div>
+</div>

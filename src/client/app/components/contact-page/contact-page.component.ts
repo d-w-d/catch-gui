@@ -1,18 +1,28 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
-import { EmailerService } from '../../core/services/emailer/emailer.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-// import { ROUTE_ANIMATIONS_ELEMENTS } from '@src/app/core/animations/route-change.animations';
-const ROUTE_ANIMATIONS_ELEMENTS = '';
+import { EmailerService } from '../../core/services/emailer/emailer.service';
+import { environment } from '@client/environments/environment';
+import { Store } from '@ngrx/store';
+import { AppState } from '@client/app/ngrx/reducers';
+import { selectSiteSettingsEffectiveTheme } from '@client/app/ngrx/selectors/site-settings.selectors';
+import { TPermittedTheme } from '@client/app/models/site-settings.model';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-contact',
+  selector: 'app-contact-page',
   templateUrl: './contact-page.component.html',
-  styleUrls: ['./contact-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./contact-page.component.scss']
 })
-export class ContactPageComponent implements OnInit {
-  routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
+export class ContactPageComponent implements OnInit, AfterViewInit, OnDestroy {
+  //
+
+  subscriptions: Subscription = new Subscription();
+  recaptchaToken: string | undefined;
+  theme: TPermittedTheme;
+  // Require user to perform recaptcha for every new message
+  isMessageSendable = false;
 
   form = this.fb.group({
     username: ['', [Validators.required]],
@@ -20,20 +30,67 @@ export class ContactPageComponent implements OnInit {
     message: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
   });
 
-  constructor(private fb: FormBuilder, private emailer: EmailerService) {}
+  constructor(
+    private fb: FormBuilder,
+    private emailer: EmailerService,
+    private snackBar: MatSnackBar,
+    private store: Store<AppState>
+  ) {
+    this.subscriptions.add(
+      this.store.select(selectSiteSettingsEffectiveTheme).subscribe(theme => (this.theme = theme))
+    );
+  }
 
   ngOnInit() {}
 
+  ngAfterViewInit() {
+    setTimeout(() => {
+      grecaptcha.render('recaptcha-id', {
+        sitekey: environment.recaptchaSiteKey,
+        theme: 'dark',
+        size: 'normal',
+        callback: token => {
+          this.recaptchaToken = token;
+          this.isMessageSendable = true;
+          setTimeout(() => this.form.updateValueAndValidity(), 0);
+        },
+        'expired-callback': () => {
+          this.isMessageSendable = false;
+          this.recaptchaToken = undefined;
+        },
+        'error-callback': () => {
+          // executed when reCAPTCHA encounters an error (usually network connectivity)
+        }
+      });
+    }, 1000);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
   submit() {
-    if (this.form.valid) {
+    if (this.isFormSubmittable()) {
       this.emailer
         .sendEmail(
           this.form.get('username').value,
           this.form.get('email').value,
-          this.form.get('message').value
+          this.form.get('message').value,
+          this.recaptchaToken + ''
         )
         .subscribe(response => {
-          console.log('Response:', response);
+          try {
+            if (!!response.success) {
+              this.snackBar.open(
+                'Message Sent. \n\n You must redo the Recaptcha (i.e. wait or refresh page) to send another message.',
+                'Close',
+                {
+                  duration: 5000
+                }
+              );
+              this.isMessageSendable = false;
+            }
+          } catch (err) {}
         });
     }
   }
@@ -46,6 +103,8 @@ export class ContactPageComponent implements OnInit {
 
   isFormSubmittable() {
     const isFormValid =
+      !!this.isMessageSendable &&
+      !!this.recaptchaToken &&
       !!this.form.get('username') &&
       !!this.form.get('email') &&
       !!this.form.get('message') &&

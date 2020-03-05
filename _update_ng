@@ -1,0 +1,19 @@
+#! /bin/bash
+
+clear
+
+echo "
+===================
+UPDATING NG MODULES
+===================
+"
+
+VERSION='latest'
+
+# Upgrade dependencies
+npm install -S \
+  @angular/{animations,cdk,common,compiler,compiler-cli,core,forms,language-service,material,platform-browser,platform-browser-dynamic,platform-server,pwa,router,service-worker}@$VERSION \
+  @ngrx/{effects,router-store,store,store-devtools}@$VERSION
+
+# Upgrade dev-dependencies
+npm install -D @angular/cli@$VERSION @angular-devkit/build-angular@$VERSION

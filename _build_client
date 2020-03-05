@@ -10,20 +10,26 @@ else
   return 1
 fi
 
-# Determine basehref
+# Determine basehref and dir structure
 if [[ $1 == "github" ]]; then
   BASE_HREF="/$GITHUB_REPO_NAME/"
+  output_dir=dist-github
 elif [[ -z $1 ]]; then
   BASE_HREF="/"
+  output_dir=dist-local
 else
-  BASE_HREF="/$1/"
+  BASE_HREF="$2/$1/"
+  output_dir=dist-linux
 fi
 
 echo -e """
 \033[32m
-===================================================================
-BUILDING CLIENT BUNDLES \033[36mBASE_HREF=${BASE_HREF} \033[32m
-===================================================================
+========================
+BUILDING CLIENT BUNDLES
+
+output_dir: \033[36m${output_dir} \033[32m
+BASE_HREF : \033[36m${BASE_HREF} \033[32m
+========================
 \033[0m
 """
 
@@ -41,12 +47,6 @@ if [[ $RUN_NG_TEST ]]; then
   echo -e "\033[32m>>> ... done! All tests passed! \033[0m"
 fi
 
-# Define name for output dir
-output_dir=dist-$1
-if [[ -z $1 ]]; then
-  output_dir=dist
-fi
-
 # Clean out old compilations
 if [[ -d $output_dir ]]; then
   rm -rf ./$output_dir
@@ -59,13 +59,22 @@ NODE_ENV=prod \
   --vendor-chunk \
   --output-hashing all \
   --base-href $BASE_HREF \
-  -- --stats-json
-cp -R dist-client $output_dir
+  \
+  --output-path $output_dir \
+  -- --stats-json # --deploy-url $BASE_HREF \
 
-echo -e """
-\033[32m
+if [[ $? == 0 ]]; then
+  echo -e """\033[32m
 ======================================
 SUCCESSFUL LOCAL BUILD TO $output_dir
-======================================
-\033[0m
+======================================\033[0m
 """
+  exit 0
+else
+  echo -e """\033[31m
+======================================
+ERROR BUILDING TO $output_dir
+======================================\033[0m
+"""
+  exit 1
+fi

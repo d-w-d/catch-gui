@@ -34,8 +34,8 @@ function build_lambda() {
     --color \
     --config src/lambda/config/webpack.config.ts \
     --json >dist-lambda/compilation-stats.json
-  # Add handler to wrap lambda code
 
+  # Add handler to wrap lambda code
   echo "
   const lambda = require('./lambda');
   exports.handler = function(event, context, callback) {

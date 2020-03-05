@@ -1,0 +1,11 @@
+// The `.routed-content-wrapper` div contains the page router in app-entry-component
+// This style has to be global because we need view encapsulation in the app-entry-component
+
+.routed-content-wrapper {
+  > *:not(router-outlet) {
+    flex: 1; // child will set to an equal size inside the container
+    width: 100%;
+    display: block;
+    position: relative;
+  }
+}

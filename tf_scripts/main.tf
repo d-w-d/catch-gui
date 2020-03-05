@@ -33,6 +33,7 @@ module "lambda_emailer_function_module" {
   zipped_file_and_path_name = abspath("./dist-lambda/exports.js.zip")
   STATIC_SENDER_EMAIL       = var.STATIC_SENDER_EMAIL
   STATIC_RECEIVER_EMAIL     = var.STATIC_RECEIVER_EMAIL
+  RECAPTCHA_SECRET          = var.RECAPTCHA_SECRET
 }
 
 module "lambda_api_gateway_module" {

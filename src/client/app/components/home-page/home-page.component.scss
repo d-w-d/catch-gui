@@ -1,11 +1,40 @@
-:host {
-  // display: block;
-  // background-color: green;
-  // height: 100%;
+@import '../../../styles/styles-variables';
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: auto;
+  padding: 0px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // text-transform: uppercase;
+  // color: white;
 }
 
-.xxx {
-  display: block;
-  background-color: green;
-  height: 100%;
+sup {
+  font-size: 12px;
+}
+
+h1 {
+  margin-top: 30px;
+  font-size: 70px;
+}
+
+.form-wrapper {
+  margin-top: 40px;
+  width: 100%;
+}
+
+@media (max-width: map-get($grid-breakpoints, sm2)) {
+  .short-title {
+    display: block;
+  }
+  .long-title {
+    display: none;
+  }
 }

@@ -1,0 +1,104 @@
+<div
+  class="table-paginator-wrapper"
+  *ngIf="!!cleanedResults && cleanedResults.length > 0 && !!resultLabels"
+>
+  <div class="table-wrapper">
+    <table mat-table matSort [dataSource]="tableData" class="data-table mat-elevation-z8XXX">
+      <ng-container
+        class="first-thumbnail-column                                "
+        [matColumnDef]="'thumbnail_url'"
+      >
+        <th mat-header-cell class="table-header-cell" *matHeaderCellDef mat-sort-header></th>
+        <td
+          mat-cell
+          class="table-body-cell thumbnail-cell"
+          [ngClass]="{ 'highlighted-cell': jj === selectedIndex }"
+          *matCellDef="let element; let jj = index"
+          (click)="selectRow(jj)"
+        >
+          <img [src]="element.thumbnail_url" />
+        </td>
+      </ng-container>
+
+      <ng-container
+        class="remaining-non-thumbnail-columns"
+        *ngFor="let col of shownCols; let j = index"
+        [matColumnDef]="col"
+      >
+        <th mat-header-cell class="table-header-cell" *matHeaderCellDef mat-sort-header>
+          <span style="white-space: nowrap;">
+            {{ resultLabels[col] && resultLabels[col].label }}
+          </span>
+
+          <div *ngIf="'raDec' === col" class="wlot" (click)="onClickPlotly($event, 'raDec')">
+            <app-neat-data-plotly-graph
+              [inputPlotlyParams]="{ xDataKey: 'ra', yDataKey: 'dec', isMiniMode: true }"
+            ></app-neat-data-plotly-graph>
+          </div>
+
+          <div *ngIf="'delta' === col" class="wlot" (click)="onClickPlotly($event, col)">
+            <app-neat-data-plotly-graph
+              [inputPlotlyParams]="{ xDataKey: col, isMiniMode: true }"
+            ></app-neat-data-plotly-graph>
+          </div>
+
+          <div *ngIf="'rh' === col" class="wlot" (click)="onClickPlotly($event, col)">
+            <app-neat-data-plotly-graph
+              [inputPlotlyParams]="{ xDataKey: 'rh', isMiniMode: true }"
+            ></app-neat-data-plotly-graph>
+          </div>
+
+          <div *ngIf="'phase' === col" class="wlot" (click)="onClickPlotly($event, col)">
+            <app-neat-data-plotly-graph
+              [inputPlotlyParams]="{ xDataKey: col, isMiniMode: true }"
+            ></app-neat-data-plotly-graph>
+          </div>
+
+          <div *ngIf="'tmtp' === col" class="wlot" (click)="onClickPlotly($event, col)">
+            <app-neat-data-plotly-graph
+              [inputPlotlyParams]="{ xDataKey: col, isMiniMode: true }"
+            ></app-neat-data-plotly-graph>
+          </div>
+
+          <div *ngIf="'trueanomaly' === col" class="wlot" (click)="onClickPlotly($event, col)">
+            <app-neat-data-plotly-graph
+              [inputPlotlyParams]="{ xDataKey: col, isMiniMode: true }"
+            ></app-neat-data-plotly-graph>
+          </div>
+        </th>
+        <td
+          mat-cell
+          class="table-body-cell"
+          [ngClass]="{ 'highlighted-cell': jj === selectedIndex }"
+          *matCellDef="let element; let jj = index"
+          (click)="selectRow(jj)"
+        >
+          <div class="cell-content-wrapper">
+            <span *ngIf="!!element[col].length && element[col].includes('http'); else notShow">
+              <a class="left-align-table-cell-content" [href]="element[col]">FITS IMG</a>
+              <a class="invisibly-size-table-cell" [href]="element[col]">FITS IMG</a>
+            </span>
+            <ng-template #notShow>
+              <span class="left-align-table-cell-content">
+                {{ formatCellEntry(element[col], resultLabels[col]) }}
+              </span>
+              <span class="invisibly-size-table-cell">
+                {{ formatCellEntry(element[col], resultLabels[col]) }}
+              </span>
+            </ng-template>
+          </div>
+        </td>
+      </ng-container>
+
+      <tbody>
+        <tr mat-header-row *matHeaderRowDef="getAllCols()"></tr>
+        <tr mat-row *matRowDef="let row; columns: getAllCols()"></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<mat-paginator
+  class="paginator"
+  [pageSizeOptions]="pageSizeOptions"
+  showFirstLastButtons
+></mat-paginator>

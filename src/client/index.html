@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <title>Ng9Boilerplate</title>
     <base href="/" />
+    <meta charset="utf-8" />
+    <title>CATCH GUI</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="apple-touch-icon" href="/assets/icons/icon-72x72.png" />
@@ -12,14 +12,18 @@
       rel="stylesheet"
     />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#1976d2" />
+
+    <link type="text/css" rel="stylesheet" href="assets/js9-served/js9support.css" />
+    <link type="text/css" rel="stylesheet" href="assets/js9-served/js9.css" />
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
     <style type="text/css">
       body,
       html {
         height: 100%;
-        /* background: #111B3B; */
-        /* background-image: url(./assets/images/sky.png); */
         background-size: cover;
       }
       .app-loading {
@@ -52,17 +56,15 @@
       .path {
         stroke-dasharray: 1, 200;
         stroke-dashoffset: 0;
-        animation: dash 1.5s ease-in-out infinite;
+        animation: dash 2.5s ease-in-out infinite;
         stroke-linecap: round;
-        /* stroke: #ddd; */
-        /* stroke: #1088f6; */
-        stroke: red;
+        stroke: #1088f6;
       }
 
       .app-loading > .logo {
         width: 100px;
         height: 100px;
-        background: url(./assets/icons/icon-72x72.png) center center no-repeat;
+        background: url(../assets/icons/logo0.png) center center no-repeat;
         background-size: contain;
       }
 
@@ -88,15 +90,13 @@
       }
     </style>
   </head>
-  <body>
-    <!-- <app-entry-root></app-entry-root> -->
-
+  <body class="mat-app-background">
     <app-entry-root>
       <div class="app-loading"></div>
     </app-entry-root>
 
-    <div id="appLoadingDivId" class="app-loading">
-      <div class="logo"></div>
+    <div id="appLoadingDivId" class="app-loading" style="z-index: 100;">
+      <!-- <div class="logo"></div> -->
       <svg style="background: rgba(0,0,0,0);" class="spinner" viewBox="25 25 50 50">
         <circle
           class="path"

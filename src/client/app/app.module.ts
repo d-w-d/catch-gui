@@ -1,65 +1,99 @@
+// Ng stuff
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+// Modules
 import { AppRoutingModule } from './routing.module';
-import { AppEntryComponent } from './app-entry/app-entry.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HeaderComponent } from './components/header/header.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-import { FooterComponent } from './components/footer/footer.component';
-import { SideNavComponent } from './components/side-nav/side-nav.component';
-import { HomePageComponent } from './components/home-page/home-page.component';
-import { AboutPageComponent } from './components/about-page/about-page.component';
-import { ContactPageComponent } from './components/contact-page/contact-page.component';
-import { SettingsPageComponent } from './components/settings-page/settings-page.component';
-import { TestPageComponent } from './components/test-page/test-page.component';
-import { TestUsersPageComponent } from './components/test-users-page/test-users-page.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
-import { TestMoreUsersPageComponent } from './components/test-more-users/test-more-users-page.component';
 import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './ngrx/reducers';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
-import { TestUserEffects } from './ngrx/effects/test-user/test-user.effects';
-import { SiteSettingsEffects } from './ngrx/effects/site-settings/site-settings.effects';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { CommonModule } from '@angular/common';
+
+// Components
+import { AboutPageComponent } from './components/about-page/about-page.component';
+import { AppEntryComponent } from './app-entry/app-entry.component';
+import { BackgroundGraphicComponent } from './components/background-graphic/background-graphic.component';
+import { ContactPageComponent } from './components/contact-page/contact-page.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { GenericDialogComponent } from './components/generic-dialog/generic-dialog.component';
+import { HeaderComponent } from './components/header/header.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
+import { SidenavComponent } from './components/side-nav/side-nav.component';
+import { SearchFieldComponent } from './components/search-field/search-field.component';
+import { SettingsPageComponent } from './components/settings-page/settings-page.component';
+import { TestPageComponent } from './components/test-page/test-page.component';
+
+// Ngrx stuff
+import { reducers, metaReducers } from './ngrx/reducers';
+import { SiteSettingsEffects } from './ngrx/effects/site-settings-effects/site-settings.effects';
+import { NavigationEffects } from './ngrx/effects/navigation-effects/navigation.effects';
+import { ObjectNameMatchEffects } from './ngrx/effects/object-name-match-effects/object-name-match.effects';
+import { NeatObjectQueryEffects } from './ngrx/effects/neat-object-query-effects/neat-object-query.effects';
+import { ScreenDeviceEffects } from './ngrx/effects/screen-device-effects/screen-device.effects';
+
+// Services
+import { NeatObjectQueryService } from './core/services/neat-data/neat-object-query.service';
+import { NeatObjectQueryMockService } from './core/services/neat-data/neat-object-query-mock.service';
+
+// Misc
+import { environment } from '../environments/environment';
+import { HmrModule, stateSetter } from './hmr.module';
+import { ObjectNameMatchService } from './core/services/object-name-match/object-name-match.service';
+import { ObjectNameMatchMockService } from './core/services/object-name-match/object-name-match-mock.service';
 
 @NgModule({
   declarations: [
-    AppEntryComponent,
-    HeaderComponent,
-    FooterComponent,
-    SideNavComponent,
-    HomePageComponent,
     AboutPageComponent,
+    AppEntryComponent,
+    BackgroundGraphicComponent,
     ContactPageComponent,
+    FooterComponent,
+    HeaderComponent,
+    HomePageComponent,
+    SearchFieldComponent,
     SettingsPageComponent,
+    SidenavComponent,
     TestPageComponent,
-    TestUsersPageComponent,
-    TestMoreUsersPageComponent
+    GenericDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    CommonModule,
     CoreModule,
     SharedModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     //
     // ngrx
-    EffectsModule.forRoot([TestUserEffects, SiteSettingsEffects]),
-    StoreModule.forRoot(reducers, { metaReducers }),
+    EffectsModule.forRoot([
+      SiteSettingsEffects,
+      NavigationEffects,
+      ObjectNameMatchEffects,
+      NeatObjectQueryEffects,
+      ScreenDeviceEffects
+    ]),
+    StoreModule.forRoot(reducers, { metaReducers: [stateSetter] }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     //
     // Dispatch actions on routing events
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' })
   ],
-  providers: [],
+  providers: [
+    {
+      provide: NeatObjectQueryService,
+      useClass: !!environment.production ? NeatObjectQueryService : NeatObjectQueryMockService
+    },
+    {
+      provide: ObjectNameMatchService,
+      useClass: !!environment.production ? ObjectNameMatchService : ObjectNameMatchMockService
+    }
+  ],
   bootstrap: [AppEntryComponent]
 })
-export class AppModule {}
-
-export const testingImports = [];
-export const nonTestingImports = [];
+export class AppModule extends HmrModule {}

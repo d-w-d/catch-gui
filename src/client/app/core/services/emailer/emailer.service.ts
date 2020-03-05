@@ -9,13 +9,19 @@ import { environment } from 'src/client/environments/environment';
 export class EmailerService {
   constructor(private http: HttpClient) {}
 
-  sendEmail(name: string, email: string, message: string): Observable<string> {
-    let apiUrl = environment.emailerEndpoint;
+  sendEmail(
+    name: string,
+    email: string,
+    message: string,
+    recaptchaToken?: string
+  ): Observable<{ success: boolean }> {
+    const apiUrl = environment.emailerEndpoint;
 
     return this.http.post<any>(`${apiUrl}/contact/`, {
       name,
       email,
-      message
+      message,
+      recaptchaToken
     });
   }
 }

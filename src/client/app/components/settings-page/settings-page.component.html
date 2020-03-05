@@ -1,16 +1,17 @@
 <div class="container">
   <h1>SETTINGS</h1>
   <div class="row">
-    <div class="col-md-6 group" [ngClass]="routeAnimationsElements">
+    <div class="col-md-6 group">
       <h2>
         {{ 'THEMES' }}
       </h2>
-      <div class="icon-form-field">
+      <mat-card class="icon-form-field">
         <mat-icon color="accent">
-          <fa-icon icon="paint-brush" color="accent"></fa-icon>
+          <fa-icon icon="paint-brush" [ngStyle]="getIconStyle()"></fa-icon>
         </mat-icon>
         <mat-form-field>
           <mat-select
+            [disabled]="isAutoNightMode"
             [placeholder]="selectedSiteTheme"
             (selectionChange)="onThemeSelect($event)"
             name="themes"
@@ -20,7 +21,35 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-      </div>
+      </mat-card>
+    </div>
+    <div class="col-md-6 group">
+      <h2>
+        {{ 'NIGHT MODE' }}
+      </h2>
+      <mat-card class="icon-form-field">
+        <mat-icon color="accent">
+          <fa-icon icon="lightbulb" [ngStyle]="getIconStyle()"></fa-icon>
+        </mat-icon>
+
+        <mat-placeholder>
+          <label>
+            {{ 'Auto night mode' }}
+          </label>
+
+          <button mat-icon-button>
+            <mat-icon matTooltip="From 19:00 to 7:00">
+              info
+            </mat-icon>
+          </button>
+        </mat-placeholder>
+        <mat-slide-toggle
+          color="accent"
+          [checked]="isAutoNightMode"
+          (change)="onAutoNightModeToggle($event)"
+        >
+        </mat-slide-toggle>
+      </mat-card>
     </div>
   </div>
   <div class="row"></div>

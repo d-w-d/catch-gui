@@ -1,0 +1,22 @@
+@mixin app-settings-page-component-theme($theme) {
+  $primary-palette: map-get($theme, primary);
+  $accent-palette: map-get($theme, accent);
+  $warn-palette: map-get($theme, warn);
+  $foreground-palette: map-get($theme, foreground);
+
+  app-settings-page {
+  }
+
+  .cdk-overlay-connected-position-bounding-box {
+    .dark-theme.mat-primary.mat-option.mat-selected {
+      //
+      // color: mat-color($primary-palette, foreground);
+      // color: red;
+    }
+  }
+
+  .mat-option-text {
+    // color: red;
+    color: mat-color($foreground-palette, text);
+  }
+}

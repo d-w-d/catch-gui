@@ -2,6 +2,8 @@
 const SES = require('aws-sdk/clients/ses');
 const ses = new SES();
 
+import axios from 'axios';
+
 /**
  * Email function
  */
@@ -13,7 +15,7 @@ export const emailer = async (event: any, callback: AWSLambda.Callback) => {
     isBase64Encoded: false,
     headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
     statusCode: 200,
-    body: '{"result": "Success."}'
+    body: '{"success": true}'
   };
   //
   // Call ses-email api
@@ -29,14 +31,29 @@ export const emailer = async (event: any, callback: AWSLambda.Callback) => {
   });
 };
 //
-function sendEmail(
+async function sendEmail(
   data: {
     name: string;
     email: string;
     message: string;
+    recaptchaToken?: string;
   },
   done: (err, data) => void
 ) {
+  // Verify Recaptcha Token if RECAPTCHA_SECRET is provided to env vars
+  if (!!process.env.RECAPTCHA_SECRET) {
+    const verificationResponse = await axios.post(
+      `https://www.google.com/recaptcha/api/siteverify` +
+        `?secret=${process.env.RECAPTCHA_SECRET}` +
+        `&response=${data.recaptchaToken}`
+    );
+    if (!verificationResponse.data.success) {
+      done(null, data);
+      return;
+    }
+  }
+
+  // Define object with everything SES needs to send email
   const params = {
     Destination: {
       // Note: see here to send to non-verified addresses

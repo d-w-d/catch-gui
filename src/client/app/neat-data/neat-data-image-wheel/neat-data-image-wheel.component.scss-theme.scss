@@ -1,0 +1,15 @@
+@mixin app-neat-data-image-wheel-component-theme($theme) {
+  $primary-palette: map-get($theme, primary);
+  $accent-palette: map-get($theme, accent);
+  $warn-palette: map-get($theme, warn);
+
+  app-neat-data-image-wheel {
+    .add-border {
+      border-style: solid;
+      border-width: 4px;
+      // border-color: mat-color($accent-palette);
+      border-color: mat-color($primary-palette, lighter);
+      // border-color: rgba(mat-color($accent-palette, 400), 0.3);
+    }
+  }
+}

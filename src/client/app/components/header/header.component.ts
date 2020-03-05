@@ -1,5 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { faBars, faCog } from '@fortawesome/free-solid-svg-icons';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -7,18 +6,17 @@ import { faBars, faCog } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  //
-  faBars = faBars;
-  faCog = faCog;
-
   @Output()
   openSidenav: EventEmitter<any> = new EventEmitter();
+
+  catchLogo = '../../../assets/images/pngs/large_logo_v4.png';
+  // catchLogo = '../../../assets/images/pngs/inverted_logo_v1.png';
 
   constructor() {}
 
   ngOnInit() {}
 
-  _openSideNav() {
+  _openSidenav() {
     this.openSidenav.emit();
   }
 }

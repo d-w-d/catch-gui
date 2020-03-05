@@ -21,7 +21,10 @@ variable "STATIC_RECEIVER_EMAIL" {
   description = "Email string supplied from calling module; this is the email account that receives the email; typically originating from .env file"
 }
 
-
+variable "RECAPTCHA_SECRET" {
+  # TO BE DEPLOYED AS ENV VARIABLE #
+  description = "If a recaptcha secret key is provided, then the Lambda function will seek to verify a recaptcha token passed from client"
+}
 
 
 

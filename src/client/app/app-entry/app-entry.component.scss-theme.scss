@@ -1,75 +1,29 @@
 @import '~@angular/material/theming';
 
 @mixin app-entry-component-theme($theme) {
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
-  $base-background-color: mat-color($primary, darker);
+  $primary-palette: map-get($theme, primary);
+  $accent-palette: map-get($theme, accent);
+  $warn-palette: map-get($theme, warn);
 
+  $background-palette: map-get($theme, background);
+  $base-background-color: mat-color($background-palette, background);
+  // $base-background-color: red;
+
+  /**
+      Note: don't try encapsulation with the app-entry-root component
+      It will fail because the themes are applied *within* app-entry-root,
+      and it's basically a global application anyway
+  **/
   mat-sidenav-container {
-    mat-toolbar {
-      background: mat-color($primary, lighter);
-
-      button {
-        &.active {
-          color: mat-color($accent, default-contrast);
-          background-color: mat-color($accent);
-        }
-      }
-
-      .link {
-        color: mat-color($primary, default-contrast);
-      }
-    }
-
-    .main-mat-toolbar {
-      background-color: rgba(mat-color($accent, darker), 0.5);
-    }
-
     mat-sidenav {
-      .mat-list-item {
-        &.active {
-          color: mat-color($accent, default-contrast);
-          background-color: mat-color($accent) !important;
-
-          &:hover {
-            background-color: mat-color($accent, darker) !important;
-          }
-        }
-      }
+      // background-color: $base-background-color;
     }
-
     mat-sidenav-content {
-      main {
-        //
-      }
+      // background-color: $base-background-color;
 
-      .footer-wrapper {
-        .footer-animator {
-          background-color: rgba(mat-color($accent, darker), 0.5);
-          // color: mat-color($primary, lighter);
-        }
-      }
+      // .footer-animator {
+      //   background-color: mat-color($primary, default);
+      // }
     }
-  }
-
-  .error-notification-overlay {
-    color: mat-color($warn, default-contrast);
-    background-color: mat-color($warn);
-  }
-
-  .info-notification-overlay {
-    color: mat-color($accent, default-contrast);
-    background-color: mat-color($accent);
-  }
-
-  .success-notification-overlay {
-    color: mat-color($success-colors, default-contrast);
-    background-color: mat-color($success-colors);
-  }
-
-  .warning-notification-overlay {
-    color: mat-color($warning-colors, default-contrast);
-    background-color: mat-color($warning-colors);
   }
 }

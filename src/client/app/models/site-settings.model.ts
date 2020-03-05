@@ -1,6 +1,8 @@
 export interface ISiteSettings {
   siteTheme: TPermittedTheme;
   isPageAnimated: boolean;
+  isAutoNightMode: boolean;
+  hour: number;
 }
 
 // TS apparatus to convert an array of strings to a union of string types
@@ -11,10 +13,7 @@ function stringLiteralArray<T extends string>(s: T[]) {
 
 export const permittedThemes = stringLiteralArray([
   //
-  'DEFAULT-THEME',
   'DARK-THEME',
-  'LIGHT-THEME',
-  'FLATLY-THEME',
-  'DARKLY-THEME'
+  'LIGHT-THEME'
 ]);
 export type TPermittedTheme = typeof permittedThemes[number];

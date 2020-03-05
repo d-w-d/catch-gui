@@ -1,0 +1,30 @@
+export interface INeatObjectQueryResult {
+  airmass: number;
+  archive_url: string;
+  cutout_url: string;
+  ddec: number;
+  dec: number;
+  delta: number;
+  designation: string;
+  dra: number;
+  exposure: number;
+  filter: string;
+  instrument: string;
+  jd: number;
+  phase: number;
+  productid: string;
+  ra: number;
+  raDec?: string;
+  rdot: number;
+  rh: number;
+  sangle: number;
+  selong: number;
+  thumbnail_url: string;
+  tmtp: number;
+  trueanomaly: number;
+  unc_a: number;
+  unc_b: number;
+  unc_theta: number;
+  vangle: number;
+  vmag: number;
+}

@@ -1,0 +1,14 @@
+@mixin app-search-field-component-theme($theme) {
+  $primary-palette: map-get($theme, primary);
+  $accent-palette: map-get($theme, accent);
+  $warn-palette: map-get($theme, warn);
+
+  app-search-field {
+    .mat-form-field-appearance-fill .mat-form-field-flex,
+    .mat-form-field-outline {
+      // background: rgba(0, 255, 255, 0.5);
+      background: rgba(mat-color($primary-palette, darker), 0.95);
+      border-radius: 5px;
+    }
+  }
+}

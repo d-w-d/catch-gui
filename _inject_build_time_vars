@@ -1,17 +1,21 @@
 #! /bin/bash
 
+####################################################################
 # This script collects together all variables that are only known
 # at build time and inject them into `environment*.ts` source code.
+####################################################################
+
+source .env
 
 # Assign default value to $BASE_HREF if not already set
 if [[ -z $BASE_HREF ]]; then
   echo -e """
-    \033[31mWARNING: BASE_HREF not set. Using default value '/'\033[0m
+    >>> \033[31mWARNING: BASE_HREF not set. Using default value '/'\033[0m
   """
   BASE_HREF='/'
 fi
 
-# Compute variable $invoke_url for lambda emailer
+# Compute and export variable $invoke_url for lambda emailer
 source _invoke_url_export
 
 ########################################
@@ -20,7 +24,23 @@ source _invoke_url_export
 cat >src/client/environments/environment.ts <<EOL
 export const environment = {
   production: false,
-  emailerEndpoint: '${invoke_url}'
+  hmr: false,
+  emailerEndpoint: '${invoke_url}',
+  basehref: '${BASE_HREF}',
+  recaptchaSiteKey: '${RECAPTCHA_SITE}'
+};
+EOL
+
+########################################
+# Overwrite environment.hmr.ts file:
+########################################
+cat >src/client/environments/environment.hmr.ts <<EOL
+export const environment = {
+  production: false,
+  hmr: true,
+  emailerEndpoint: '${invoke_url}',
+  basehref: '${BASE_HREF}',
+  recaptchaSiteKey: '${RECAPTCHA_SITE}'
 };
 EOL
 
@@ -30,7 +50,9 @@ EOL
 cat >src/client/environments/environment.prod.ts <<EOL
 export const environment = {
   production: true,
+  hmr: false,
   emailerEndpoint: '${invoke_url}',
-  basehref: '${BASE_HREF}'
+  basehref: '${BASE_HREF}',
+  recaptchaSiteKey: '${RECAPTCHA_SITE}'
 };
 EOL

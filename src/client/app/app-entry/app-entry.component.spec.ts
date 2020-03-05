@@ -6,7 +6,7 @@ import { AppState } from '../ngrx/reducers';
 import { SharedModule } from '../shared/shared.module';
 import { Store } from '@ngrx/store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SideNavComponent } from '../components/side-nav/side-nav.component';
+import { SidenavComponent } from '../components/side-nav/side-nav.component';
 import { HeaderComponent } from '../components/header/header.component';
 import { FooterComponent } from '../components/footer/footer.component';
 
@@ -17,7 +17,7 @@ describe('AppEntryComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, SharedModule, BrowserAnimationsModule],
-      declarations: [AppEntryComponent, SideNavComponent, HeaderComponent, FooterComponent],
+      declarations: [AppEntryComponent, SidenavComponent, HeaderComponent, FooterComponent],
       providers: [provideMockStore({ initialState })]
     }).compileComponents();
     // @ts-ignore:

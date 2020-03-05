@@ -1,0 +1,24 @@
+@mixin app-fits-graphic-component-theme($theme) {
+  $primary-palette: map-get($theme, primary);
+  $accent-palette: map-get($theme, accent);
+  $warn-palette: map-get($theme, warn);
+  $background-palette: map-get($theme, background);
+  $foreground-palette: map-get($theme, foreground);
+
+  $card-color: mat-color($background-palette, card);
+  $text-color: mat-color($foreground-palette, text);
+
+  .JS9Button,
+  .js9-my-menu-button-class {
+    background-color: $card-color;
+    color: $text-color;
+    text-shadow: none;
+  }
+
+  .JS9MenubarContainer-flat,
+  JS9MenubarContainer-border {
+    background-color: $card-color;
+    overflow: hidden;
+    padding: 0px 0px; // Remove padding from around menu buttons
+  }
+}

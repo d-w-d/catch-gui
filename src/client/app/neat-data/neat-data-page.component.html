@@ -1,0 +1,111 @@
+<ng-container *ngIf="device$ | async as device">
+  <div *ngIf="device === 'mobile'" class="mobile-layout">
+    <div class="myrow">
+      <div class="mobile-title-space">
+        <app-neat-data-title></app-neat-data-title>
+      </div>
+    </div>
+    <div class="myrow">
+      <div class="mobile-main-image-space">
+        <app-neat-data-main-image></app-neat-data-main-image>
+      </div>
+    </div>
+
+    <div class="myrow">
+      <div class="mobile-image-wheel-space">
+        <app-neat-data-image-wheel size="70px" [isVertical]="false"></app-neat-data-image-wheel>
+      </div>
+    </div>
+
+    <div class="myrow">
+      <div class="mobile-checkboxes-space">
+        <app-neat-data-checkboxes></app-neat-data-checkboxes>
+      </div>
+    </div>
+
+    <div class="myrow">
+      <div class="mobile-table-space">
+        <app-neat-data-table></app-neat-data-table>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="device === 'tablet'" class="tablet-layout">
+    <div class="myrow">
+      <div class="tablet-title-space">
+        <app-neat-data-title></app-neat-data-title>
+      </div>
+    </div>
+
+    <div class="myrow tablet-main-image-wheel-checkboxes-wrapper">
+      <div class="mycol tablet-checkboxes-wrapper">
+        <mat-card color="accent">
+          <app-neat-data-checkboxes></app-neat-data-checkboxes>
+        </mat-card>
+      </div>
+
+      <div class="mycol tablet-main-image-wheel-card-wrapper">
+        <mat-card>
+          <div class="mycol tablet-main-image-wheel-wrapper">
+            <div class="tablet-main-image-dummy sets-height-based-on-width"></div>
+            <div class="tablet-main-image-wrapper">
+              <app-neat-data-main-image></app-neat-data-main-image>
+            </div>
+            <div class="tablet-wheel-wrapper">
+              <app-neat-data-image-wheel
+                size="80px"
+                [isVertical]="true"
+              ></app-neat-data-image-wheel>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+
+    <div class="myrow">
+      <div class="tablet-table-space">
+        <mat-card color="accent">
+          <app-neat-data-table></app-neat-data-table>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="device === 'desktop'" class="desktop-layout">
+    <div class="myrow">
+      <div class="desktop-title-space">
+        <app-neat-data-title></app-neat-data-title>
+      </div>
+    </div>
+
+    <div class="myrow desktop-table-main-image-wheel-row">
+      <div class="mycol desktop-table-wrapper">
+        <mat-card color="accent">
+          <app-neat-data-table></app-neat-data-table>
+        </mat-card>
+      </div>
+      <div class="mycol desktop-main-image-wheel-wrapper">
+        <mat-card>
+          <div class="mycol desktop-main-image-wheel-container">
+            <div class="desktop-main-image-dummy-wrapper"></div>
+            <div class="desktop-main-image-wrapper">
+              <app-neat-data-main-image></app-neat-data-main-image>
+            </div>
+            <div class="desktop-wheel-wrapper">
+              <app-neat-data-image-wheel
+                size="80px"
+                [isVertical]="true"
+              ></app-neat-data-image-wheel>
+            </div>
+          </div>
+        </mat-card>
+
+        <div class="myrow">
+          <mat-card>
+            <app-neat-data-checkboxes [colNum]="2"></app-neat-data-checkboxes>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

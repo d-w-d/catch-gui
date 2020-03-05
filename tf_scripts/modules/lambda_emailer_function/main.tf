@@ -55,6 +55,7 @@ resource "aws_lambda_function" "sendmail" {
       billing               = "${var.prefix}${var.billing_tag}"
       STATIC_SENDER_EMAIL   = "${var.STATIC_SENDER_EMAIL}"
       STATIC_RECEIVER_EMAIL = "${var.STATIC_RECEIVER_EMAIL}"
+      RECAPTCHA_SECRET      = "${var.RECAPTCHA_SECRET}"
     }
   }
 }

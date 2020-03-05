@@ -1,1 +1,24 @@
-<p>footer works!</p>
+<mat-toolbar color="primary">
+  <a href="https://pds-smallbodies.astro.umd.edu/" target="_blank">
+    <div class="icon-wrapper start " routerLink="/">
+      <img [src]="sbnLogo" alt="" />
+    </div>
+  </a>
+
+  <div class="icon-wrapper end" routerLink>
+    <span class="icon-descriptor" style="font-size: 10px;">
+      Copyright © {{ timeStamp }} Small Bodies Node
+    </span>
+  </div>
+
+  <a href="https://github.com/dwd-umd/catch-apis" target="_blank">
+    <div class="icon-wrapper end">
+      <mat-icon style="transform: translate(0px,-5px);">
+        <fa-icon [icon]="['fab', 'github']"></fa-icon>
+      </mat-icon>
+      <span class="icon-descriptor">
+        {{ 'Github' }}
+      </span>
+    </div>
+  </a>
+</mat-toolbar>

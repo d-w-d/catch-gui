@@ -3,7 +3,7 @@
 # compiled output
 /dist
 /dist-*
-/dist-client
+/dist-local
 /tmp
 /out-tsc
 # Only exists if Bazel was run
@@ -42,6 +42,9 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+rxjs-play.ts
+notes.md
+.redundant
 
 # System Files
 .DS_Store

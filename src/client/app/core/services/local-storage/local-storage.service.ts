@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ILocalStorageState } from 'src/client/app/models/local-storage.model';
-import { permittedThemes } from 'src/client/app/models/site-settings.model';
+import { permittedThemes, TPermittedTheme } from 'src/client/app/models/site-settings.model';
+import { colorPreferenceDeterminator } from '@client/app/utils/temp';
 
 type LSKey = keyof ILocalStorageState; // Define type for 'LocalStorageKeys'
 
@@ -10,15 +11,27 @@ type LSKey = keyof ILocalStorageState; // Define type for 'LocalStorageKeys'
 })
 export class LocalStorageService {
   //
-  readonly defaultPermittedLocalStorageState: ILocalStorageState = {
-    siteTheme: 'DEFAULT-THEME',
+  private defaultPermittedLocalStorageState: ILocalStorageState = {
+    // Use this function to set default based on user's OS preference
+    // siteTheme: colorPreferenceDeterminator(),
+    siteTheme: 'DARK-THEME',
     isPageAnimated: true,
+    isAutoNightMode: false,
+    hour: new Date().getHours(),
     testKey: 'foo'
   };
 
   constructor(private overlayContainer: OverlayContainer) {
     //
   }
+
+  /**
+   * Call this method early in app loading in order to ...
+   *
+   */
+  // setDefaultTheme(setter: TPermittedTheme) {
+  //   this.defaultPermittedLocalStorageState.siteTheme = setter;
+  // }
 
   getLocalStorageState(): ILocalStorageState {
     // Use default values for testing
@@ -79,9 +92,8 @@ export class LocalStorageService {
         // present state and default state
         const isValueUndefined = typeof presentState[key] === 'undefined';
         const isBasicTypeWrong = typeof presentState[key] !== typeof defaultState[key];
-        const isThemeTypeWrong = !permittedThemes.includes(presentState[key]);
 
-        if (isValueUndefined || isBasicTypeWrong || isThemeTypeWrong) {
+        if (isValueUndefined || isBasicTypeWrong) {
           // If problem is found with present key-value pair, reset it
           accumState[key] = defaultState[key];
         } else {

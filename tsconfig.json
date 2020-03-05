@@ -17,11 +17,17 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@client/*": ["src/client/*"],
+      "@app/*": ["src/client/app/*"],
+      "@env/*": ["src/client/environments/*"]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    "strictInjectionParameters": true,
+    "strictTemplates": true
   },
   /////////////////////////////////////////////////////////////////////////////////////
   /// Added TS Strictness

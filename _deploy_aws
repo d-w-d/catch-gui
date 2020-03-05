@@ -5,29 +5,80 @@
 #   What's This Script?
 #   -------------------
 #   Once you've provisioned your aws resources with `_run_terraform`
-#   we use the aws-cli to sync output of our ng app to production S3 buckets
+#   and we've built a locally-runnable version of the app to dist-local
+#   we run this script to copy contents to dist-aws, we compress the jpgs
+#   then we sync that dir to chosen S3 bucket (and set gzip headers for jpgs)
 #
 
 clear
 
 source .env
 
+# Ensure dist-local exists
+if [[ -d dist-local ]]; then
+
+  echo -e """
+\033[31m
+>>> Directory dist-local found. AWS deployment will be based off of this.
+    Rerun _build_client first to be sure you have latest changes to app!
+\033[0m
+"""
+
+else
+  echo -e """
+\033[31m
+>>> Directory dist-local doesn't exist! Cancelling.
+\033[0m
+"""
+  exit 1
+fi
+
+echo -e """ \033[32m
+========================================
+PREPARING LOCAL BUILD FOR AWS DEPLOYMENT
+\033[31m
+WARNING: this script will ONLY compress
+jpgs with the exact extension '.jpg'     \033[32m
+======================================== \033[0m
+"""
+
+# Copy dist-local to separate dist for aws since we'll be setting
+# S3 headers that will break when serving from e.g. http-server
+rsync -a --delete dist-local/ dist-aws/
+
+# Define dir names for jpg compression commands
+jpg_ext=assets/images/jpgs
+jpg_dir=dist-aws/$jpg_ext
+
+echo -e "\033[32m>>> Compressing JPGS... \033[0m"
+
+# 1. Loop through files in jpgs
+# 2. compress foo.jpg => foo.jpg.gz
+# 3. mv foo.jpg.gz => foo.jpg
+if [[ -d $jpg_dir ]]; then
+  for filename in $jpg_dir/*.jpg; do
+    [[ -d $filename ]] && continue
+    gzip -f9 $filename
+    mv $filename.gz $filename
+  done
+else
+  echo "So such dir: "$jpg_dir
+fi
+
 # If no argument supplied, prompt user to choose deployment
 deploy_option=$1
 
 if [[ -z $deploy_option ]]; then
-  echo -e """
-
-===============================================================
-
-Choose a number for deploying the present contents of 'dist-client':
+  echo -e """\033[32m
+====================================================================
+Choose a number for deploying the present contents of 'dist-local':
 
 1. dev
 2. prod (requires confirmation)
 
-===============================================================
-
-"""
+(Note: you can pass number directly to script as argument)
+====================================================================
+\033[0m"""
 
   read deploy_option
 fi
@@ -38,13 +89,13 @@ if [[ $deploy_option =~ ^[0-9]+$ && $deploy_option -ge 1 && $deploy_option -le 2
   # Set params based on choice of $deploy_option
   if [[ $deploy_option = 1 ]]; then
     clear
-    echo "Deploying to dev..."
+    echo -e "\033[32m>>> Deploying to dev... \033[0m"
     sleep 1
     bucket_name="$TF_VAR_PREFIX""$TF_VAR_DEV_BUCKET_NAME"
   fi
   if [[ $deploy_option = 2 ]]; then
     clear
-    echo "Deploying to prod..."
+    echo -e "\033[32m>>> Deploying to prod... \033[0m"
     sleep 1
     bucket_name="$TF_VAR_PREFIX""$TF_VAR_PROD_BUCKET_NAME"
   fi
@@ -57,16 +108,12 @@ fi
 
 # User must confirm changes to prod
 if [[ $deploy_option = 2 ]]; then
+  clear
   echo -e """
-
-===============================================================
-
+=====================================================================
 Are you \033[31m100%\033[0m certain you want to update prod frontend?
-
-Type 'yes' to proceed.
-
-===============================================================
-
+Type '\033[31myes\033[0m' to proceed.
+=====================================================================
 """
 
   read decision
@@ -81,7 +128,20 @@ fi
 aws s3 rm s3://${bucket_name} --recursive
 
 # Sync dist with bucket
-aws s3 sync ./dist/ s3://${bucket_name}/
+aws s3 sync ./dist-aws/ s3://${bucket_name}/
 
-# Final printout
-./_show_website_endpoints
+# Sync jpgs to AWS with required headers set
+aws s3 sync \
+  --content-type "image/jpeg" \
+  --content-encoding "gzip" \
+  $jpg_dir s3://${bucket_name}/$jpg_ext
+
+# Printout website endpoints
+# This script also exports $CDN_DISTRIBUTION_ID
+source _show_website_endpoints
+
+# If prod, then invalidate cloudfront paths (i.e. force it to re-visit prod bucket for all files)
+if [[ $deploy_option == 2 ]]; then
+  echo -e "\033[31m>>> Invalidating cloudfront paths...\033[32m"
+  aws cloudfront create-invalidation --distribution-id $CDN_DISTRIBUTION_ID --paths "/*"
+fi

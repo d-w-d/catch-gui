@@ -1,0 +1,31 @@
+<div #imagesWrapper class="images-wrapper">
+  <ng-container *ngIf="latestData$ | async as data; else loading">
+    <div
+      *ngIf="!isFits"
+      class="main-image"
+      [ngStyle]="{
+        backgroundImage: 'url(' + data.thumbUrl + ')',
+        height: data.width + 'px'
+      }"
+    ></div>
+    <app-fits-graphic
+      *ngIf="isFits"
+      [width]="data.width"
+      [fitsUrl]="data.fitsUrl"
+      (isFitsLoaded)="raiseButton($event)"
+    ></app-fits-graphic>
+    <button
+      mat-fab
+      (click)="toggleFits($event)"
+      class="edit-fab"
+      [ngClass]="{ xxx: isButtonRaised }"
+    >
+      <mat-icon>{{ isFits ? 'image' : 'brush' }}</mat-icon>
+    </button>
+  </ng-container>
+  <ng-template #loading>
+    <div class="spinner-wrapper">
+      <mat-spinner color="accent"></mat-spinner>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,52 @@
+<!-- <mat-card class="search-form"> -->
+<form class="search-form" [formGroup]="myForm" (keydown)="keyDownOnInputText($event)">
+  <mat-form-field [color]="getFormColor()" appearance="outline" class="search-full-width">
+    <mat-label>{{ getSearchMessageText() }}</mat-label>
+
+    <input
+      matInput
+      type="text"
+      placeholder="E.g. 65P"
+      aria-label="Name of the object to be matched"
+      formControlName="objectSearch"
+      [matAutocomplete]="auto"
+      [ngStyle]="getInputTextColor()"
+      (ngModelChange)="searchTermChangeSubject.next($event)"
+    />
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of objectNameMatchResults" [value]="option.display_text">
+        <span class="name-search-result">
+          {{ optionToText(option) + '' }}
+        </span>
+      </mat-option>
+    </mat-autocomplete>
+
+    <button
+      class="yyy"
+      [disabled]="!isObjectNameMatched()"
+      mat-raised-button
+      mat-icon-button
+      matSuffix
+      aria-label="Button to start searching names"
+      (click)="submitObjectNameMatch($event)"
+    >
+      <mat-icon matSuffix *ngIf="!isObjectNameMatched()">search</mat-icon>
+      <mat-icon *ngIf="isObjectNameMatched()" [ngStyle]="{ color: successColor }">done</mat-icon>
+    </button>
+
+    <!-- <div class="xxx">
+      <mat-spinner *ngIf="!!isWaitingForData" diameter="40"></mat-spinner>
+      <mat-checkbox
+        *ngIf="!isWaitingForData"
+        formControlName="forceRefresh"
+        color="primary"
+        value="false"
+      ></mat-checkbox>
+    </div> -->
+  </mat-form-field>
+  <!-- <button mat-button primary style="margin: 10px 20px; box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);">
+    SUBMIT
+  </button> -->
+</form>
+
+<!-- </mat-card> -->

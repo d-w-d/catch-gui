@@ -1,15 +1,17 @@
 
-
+# TF way of creating sth like a local variable
+locals {
+  s3_origin_id = "S3-${var.bucket_name}"
+}
 
 
 # Create Cloudfront distribution
 resource "aws_cloudfront_distribution" "cloudfront_resource" {
   origin {
-    # domain_name = "${aws_s3_bucket.prod_bucket.website_endpoint}"
-    # origin_id   = "S3-${aws_s3_bucket.prod_bucket.bucket}"
+
 
     domain_name = "${var.domain_name}"
-    origin_id   = "S3-${var.bucket_name}"
+    origin_id   = local.s3_origin_id
 
     custom_origin_config {
       http_port              = 80
@@ -48,6 +50,7 @@ resource "aws_cloudfront_distribution" "cloudfront_resource" {
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
+    compress               = true
   }
 
   # Distributes content to US and Europe
@@ -66,8 +69,26 @@ resource "aws_cloudfront_distribution" "cloudfront_resource" {
     cloudfront_default_certificate = true
   }
 
-  # !Removing this because I *think* you can indicate dependencies to tf
-  # !by using variables as input to this module
-  # !that are outputs from the S3 bucket that had been referenced here
-  # depends_on = [aws_s3_bucket.prod_bucket]
+
+  # ordered_cache_behavior {
+  #   path_pattern     = "*"
+  #   allowed_methods  = ["GET", "HEAD", "OPTIONS"]
+  #   cached_methods   = ["GET", "HEAD", "OPTIONS"]
+  #   target_origin_id = local.s3_origin_id
+
+  #   forwarded_values {
+  #     query_string = false
+  #     headers      = ["Origin"]
+
+  #     cookies {
+  #       forward = "none"
+  #     }
+  #   }
+
+  #   min_ttl                = 0
+  #   default_ttl            = 86400
+  #   max_ttl                = 31536000
+  #   compress               = true
+  #   viewer_protocol_policy = "redirect-to-https"
+  # }
 }

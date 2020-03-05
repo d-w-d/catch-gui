@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ITestUser } from 'src/client/app/models/user.model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
