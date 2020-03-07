@@ -1,18 +1,32 @@
 <mat-toolbar color="primary">
-  <a href="https://pds-smallbodies.astro.umd.edu/" target="_blank">
-    <div class="icon-wrapper start " routerLink="/">
-      <img [src]="sbnLogo" alt="" />
+  <div class="toolbar-cell">
+    <a href="https://github.com/dwd-umd/catch-apis" target="_blank">
+      <div class="icon-wrapper start">
+        <mat-icon style="transform: translate(0px,-5px);">
+          <fa-icon [icon]="['fab', 'github']"></fa-icon>
+        </mat-icon>
+        <span class="icon-descriptor">
+          {{ 'Github' }}
+        </span>
+      </div>
+    </a>
+  </div>
+  <div class="toolbar-cell">
+    <div class="text-wrapper" routerLink>
+      <div class="first">{{ ' Copyright © ' + timeStamp + ' ' }}</div>
+      <div class="second">{{ ' Small Bodies Node ' }}</div>
     </div>
-  </a>
-
-  <div class="icon-wrapper end" routerLink>
-    <span class="icon-descriptor" style="font-size: 10px;">
-      Copyright © {{ timeStamp }} Small Bodies Node
-    </span>
+  </div>
+  <div class="toolbar-cell">
+    <a href="https://pds-smallbodies.astro.umd.edu/" target="_blank">
+      <div class="icon-wrapper start">
+        <img [src]="sbnLogo" alt="" />
+      </div>
+    </a>
   </div>
 
-  <a href="https://github.com/dwd-umd/catch-apis" target="_blank">
-    <div class="icon-wrapper end">
+  <!-- <a href="https://github.com/dwd-umd/catch-apis" target="_blank">
+    <div class="icon-wrapper start">
       <mat-icon style="transform: translate(0px,-5px);">
         <fa-icon [icon]="['fab', 'github']"></fa-icon>
       </mat-icon>
@@ -21,4 +35,20 @@
       </span>
     </div>
   </a>
+
+  <div class="icon-wrapper" routerLink>
+    <div class="icon-descriptor" style="font-size: 10px; text-align: center; line-height: 10px;">
+      <span style="width: 100%; background-color: pink; white-space: wrap;">
+        Copyright © {{ timeStamp }}</span
+      >
+      <span style="display: inline-block; background-color: cyan; white-space: wrap;">
+        Small Bodies Node</span
+      >
+    </div>
+  </div>
+  <div class="icon-wrapper end" routerLink="/">
+    <a href="https://pds-smallbodies.astro.umd.edu/" target="_blank">
+      <img [src]="sbnLogo" alt="" />
+    </a>
+  </div> -->
 </mat-toolbar>

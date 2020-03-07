@@ -13,7 +13,7 @@ interface ICatchObjidProbe {
   results: string;
 }
 
-export const ROOT_URL = 'https://musforti.astro.umd.edu/catch/';
+export const ROOT_URL = 'https://musforti.astro.umd.edu/catch-sandbox/';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +25,10 @@ export class NeatObjectQueryService {
    * Ping initial route to determine if data for object is cached or queued
    */
   queryNeatObject(objid: string, isRefreshed?: boolean): Observable<INeatObjectQueryResult[]> {
+    //
+    //
+    // isRefreshed = true;
+
     const url = ROOT_URL + `query/moving?target=${objid}${isRefreshed ? '&cached=false' : ''}`;
     console.log('url', url);
 
@@ -41,8 +45,9 @@ export class NeatObjectQueryService {
         if (data.message.includes('Enqueued search')) {
           //
           return from(this.watchJobStream(data.job_id)).pipe(
-            switchMap(data2 => {
-              const url3 = ROOT_URL + `caught/${data2.job_id}`;
+            switchMap(job_id => {
+              console.log('job_id', job_id);
+              const url3 = ROOT_URL + `caught/${job_id}`;
               return this.httpClient
                 .get<{ count: number; job_id: string; data: INeatObjectQueryResult[] }>(url3)
                 .pipe(
@@ -76,23 +81,25 @@ export class NeatObjectQueryService {
     );
   }
 
-  watchJobStream(jobId: string): Promise<any> {
-    const p = new Promise(resolve => {
+  watchJobStream(jobId: string): Promise<string> {
+    const p = new Promise<string>(resolve => {
       //
-      const onStreamClosure = () => {
+      const onStreamClosure = (job_id: string) => {
         // Do sth upon closure of stream
-        resolve();
+        console.log('closing stream');
+        resolve(job_id);
       };
 
       const url = ROOT_URL + 'stream';
       console.log('jobId', jobId, url);
 
       const source = new EventSource(url);
-      source.onmessage = function(e) {
-        console.log('eee', e, e.data);
-        if (e.data === jobId) {
+      source.onmessage = function(msgEvent: MessageEvent) {
+        console.log('msgEvent', msgEvent, msgEvent.data, typeof msgEvent);
+        if (msgEvent.data === jobId) {
+          console.log('this', this, typeof this);
           this.close(); // Sever connection to SSE route
-          onStreamClosure();
+          onStreamClosure(msgEvent.data);
         }
       };
     });

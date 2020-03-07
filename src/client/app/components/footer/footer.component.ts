@@ -14,7 +14,7 @@ export class FooterComponent implements OnInit {
   timeStamp = ' ' + new Date().getFullYear();
 
   // sbnLogo = 'assets/images/pngs/bw_sbn_logo_v1.png';
-  sbnLogo = 'assets/images/pngs/sbn_logo3_v0.png';
+  sbnLogo = 'assets/images/pngs/sbn_logo4_v0.png';
 
   constructor() {}
 

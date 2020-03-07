@@ -75,7 +75,7 @@ export class PipelineInterceptor implements HttpInterceptor {
         } else {
           // server-side error
           errorMessage = `Error Message: ${error.message}`;
-          clientMessage = `The data API is unreachable. Please try again later.`;
+          clientMessage = `The data API is unreachable. Please check your connection or try again later.`;
         }
         // Inform user that there's a problem
         this.snackBar.open(clientMessage, 'Close', {
