@@ -1,0 +1,27 @@
+@import '~@angular/material/theming';
+
+@mixin app-neat-data-page-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  app-neat-data-page {
+    .mobile-layout,
+    .tablet-layout,
+    .desktop-layout {
+      & > div > svg {
+        path {
+          fill: mat-color($accent);
+        }
+      }
+    }
+  }
+
+  app-neat-data-page {
+    mat-card {
+      // border: 1.2px solid black;
+    }
+  }
+}

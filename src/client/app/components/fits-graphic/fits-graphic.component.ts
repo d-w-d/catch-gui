@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs';
+import { Subscription, Observable, combineLatest } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
   Component,
@@ -12,12 +12,20 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
+import DmsCoordinates from 'dms-conversion';
 
 import { selectSiteSettingsTheme } from '@client/app/ngrx/selectors/site-settings.selectors';
 import { TPermittedTheme } from '@client/app/models/site-settings.model';
 import { simpleUid } from '@client/app/utils/simple-uid';
 import { AppState } from '@client/app/ngrx/reducers';
 import { sleep } from '@client/app/utils/sleep';
+import {
+  selectNeatObjectQueryResults,
+  selectNeatObjectQuerySelectedResultIndex
+} from '@client/app/ngrx/selectors/neat-object-query.selectors';
+import { map } from 'rxjs/operators';
+import { INeatObjectQueryResult } from '@client/app/models/neat-object-query-result.model';
+import { degToHms } from '@client/app/utils/degToHms';
 
 declare const JS9: any;
 declare const $: JQueryStatic;
@@ -42,6 +50,9 @@ export class FitsGraphicComponent implements OnDestroy, OnChanges {
   width: number;
 
   @Input()
+  height: number;
+
+  @Input()
   fitsUrl = '';
 
   @Output()
@@ -51,6 +62,7 @@ export class FitsGraphicComponent implements OnDestroy, OnChanges {
   uid: string = simpleUid();
   siteTheme: TPermittedTheme;
   subscriptions = new Subscription();
+  selectedResult: INeatObjectQueryResult;
 
   // Immutable case-sensitive required class names for transforming JS9 elements
   readonly js9MenubarClassName = 'JS9Menubar';
@@ -60,6 +72,21 @@ export class FitsGraphicComponent implements OnDestroy, OnChanges {
   constructor(private store: Store<AppState>) {
     this.subscriptions.add(
       this.store.select(selectSiteSettingsTheme).subscribe(theme => (this.siteTheme = theme))
+    );
+
+    this.subscriptions.add(
+      combineLatest([
+        this.store.select(selectNeatObjectQueryResults),
+        this.store.select(selectNeatObjectQuerySelectedResultIndex)
+      ])
+        .pipe(
+          map(
+            ([results, selectedResultIndex]): INeatObjectQueryResult => {
+              return results[selectedResultIndex];
+            }
+          )
+        )
+        .subscribe(selectedResult => (this.selectedResult = selectedResult))
     );
 
     this.resetJS9Display = this.resetJS9Display.bind(this);
@@ -72,11 +99,12 @@ export class FitsGraphicComponent implements OnDestroy, OnChanges {
       !!changes &&
       !!this.fitsUrl &&
       !!this.width &&
+      !!this.height &&
       true
     ) {
       JS9.CloseImage(); // See here: https://github.com/ericmandel/js9/issues/60#issuecomment-506104711
       /**
-       * When changes are made to input fitsUrl or width we crudely
+       * When changes are made to input fitsUrl or width or height we crudely
        * unmount-then-mount the entire component using sequential
        * setTimeouts to toggle an ngIf as the easiest way to reset
        * the divs that JS9 needs to act on from the convoluted
@@ -103,13 +131,15 @@ export class FitsGraphicComponent implements OnDestroy, OnChanges {
       ) as any;
       try {
         const canvas = canvases[0];
-        const ctx = canvas.getContext('2d')!;
+        const ctx = !!canvas ? canvas.getContext('2d') : null;
         if (!!ctx) {
           ctx.globalCompositeOperation = 'difference';
           ctx.fillStyle = 'rgba(0,0,0,0)';
           ctx.fillStyle = 'white';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           canvas.style.backgroundColor = 'rgba(0,0,0,0)';
+        } else {
+          throw new Error('This logic sucks!');
         }
       } catch (err) {
         console.log('CANVAS NOT FOUND');
@@ -161,17 +191,10 @@ export class FitsGraphicComponent implements OnDestroy, OnChanges {
         // You need to adjust color-scale coloring BEFORE loading FITS image
         this.adjustColorbarColoring();
 
-        // console.log("", this.);
-
         // Load external fits file to our div
         JS9.Load(
           this.fitsUrl,
           {
-            //
-            // regions:'',
-
-            //
-            // scale: 'histeq',
             scale: 'linear',
             colormap: 'cool',
             onload: () => {
@@ -179,14 +202,39 @@ export class FitsGraphicComponent implements OnDestroy, OnChanges {
                 // JS9.SetZoom('toFit', { display: this.uid });
                 JS9.SetZoom(1, { display: this.uid });
                 JS9.SetScale('zscale');
+
+                // Draw Ellipse
+                const ra = this.selectedResult.ra;
+                const dec = this.selectedResult.dec;
+                const UNC_A = this.selectedResult.unc_a * 1;
+                const UNC_B = this.selectedResult.unc_b * 1;
+                const UNC_THETA = this.selectedResult.unc_theta;
+
+                const [ra4, dec4] = degToHms(ra, dec);
+                const js9DrawEllipseCmd =
+                  `ellipse(${ra4}, ${dec4}, ${UNC_A}", ${UNC_B}", ${UNC_THETA})` +
+                  ` {"color": "violet"}`;
+                JS9.AddRegions(js9DrawEllipseCmd, {
+                  changeable: false
+                });
+
                 this.isFitsLoaded.emit(true);
                 resolve();
               }, 0);
+            },
+            onerror: err => {
+              console.log('err: ', err);
             }
           },
           { display: this.uid }
         );
       }, 0);
     });
+  }
+
+  getHeight() {
+    const menuPlusColorBarHeight = 44 + 42;
+    const result = this.height ? this.height - menuPlusColorBarHeight + 'px' : '100px';
+    return result;
   }
 }

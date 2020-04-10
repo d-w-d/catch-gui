@@ -19,6 +19,11 @@ export const selectSiteSettingsIsAutoNightMode = createSelector(
   siteSettings => siteSettings.isAutoNightMode
 );
 
+export const selectSiteSettingsIsHappyWithCookies = createSelector(
+  (state: AppState) => state.siteSettingsSubstate,
+  siteSettings => siteSettings.isHappyWithCookies
+);
+
 export const selectSiteSettingsHour = createSelector(
   (state: AppState) => state.siteSettingsSubstate,
   siteSettings => siteSettings.hour

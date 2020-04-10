@@ -1,14 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of, interval } from 'rxjs';
-import {
-  mergeMap,
-  catchError,
-  map,
-  withLatestFrom,
-  mapTo,
-  distinctUntilChanged
-} from 'rxjs/operators';
+import { Observable, interval } from 'rxjs';
+import { map, withLatestFrom, mapTo, distinctUntilChanged } from 'rxjs/operators';
 import { LocalStorageService } from 'src/client/app/core/services/local-storage/local-storage.service';
 import {
   ESiteSettingsActionTypes,
@@ -27,14 +20,6 @@ export class SiteSettingsEffects {
     private localStorageService: LocalStorageService,
     private store$: Store<AppState>
   ) {}
-
-  // changeHour = createEffect(() =>
-  //   interval(60_000).pipe(
-  //     mapTo(new Date().getHours()),
-  //     distinctUntilChanged(),
-  //     map(hour => actionSettingsChangeHour({ hour }))
-  //   )
-  // );
 
   @Effect()
   // Check the hour every 60s
@@ -60,7 +45,8 @@ export class SiteSettingsEffects {
       ESiteSettingsActionTypes.SiteSettingsSetAll,
       ESiteSettingsActionTypes.SiteSettingsSetSiteTheme,
       ESiteSettingsActionTypes.SiteSettingsSetIsPageAnimated,
-      ESiteSettingsActionTypes.SiteSettingsIsAutoNightMode
+      ESiteSettingsActionTypes.SiteSettingsSetIsAutoNightMode,
+      ESiteSettingsActionTypes.SiteSettingsSetIsHappyWithCookies
     ),
     map(data => {
       // console.log('data');
@@ -70,8 +56,7 @@ export class SiteSettingsEffects {
     withLatestFrom(this.store$),
     map(data => {
       const siteSettingsSubstate = data[1].siteSettingsSubstate;
-      // this.localStorageService.setItem('siteTheme', siteSettingsSubstate.siteTheme);
-      this.localStorageService.setLocalStorageState(siteSettingsSubstate); //.setItem('siteTheme', siteSettingsSubstate.siteTheme);
+      this.localStorageService.setLocalStorageState(siteSettingsSubstate);
     })
   );
 }

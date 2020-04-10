@@ -45,7 +45,10 @@ import { environment } from '../environments/environment';
 import { HmrModule, stateSetter } from './hmr.module';
 import { ObjectNameMatchService } from './core/services/object-name-match/object-name-match.service';
 import { ObjectNameMatchMockService } from './core/services/object-name-match/object-name-match-mock.service';
+import { TermsComponent } from './components/terms/terms.component';
+import { ApisPageComponent } from './components/apis-page/apis-page.component';
 
+const isMockDataUsed = !true;
 @NgModule({
   declarations: [
     AboutPageComponent,
@@ -59,7 +62,9 @@ import { ObjectNameMatchMockService } from './core/services/object-name-match/ob
     SettingsPageComponent,
     SidenavComponent,
     TestPageComponent,
-    GenericDialogComponent
+    GenericDialogComponent,
+    TermsComponent,
+    ApisPageComponent
   ],
   imports: [
     BrowserModule,
@@ -87,11 +92,17 @@ import { ObjectNameMatchMockService } from './core/services/object-name-match/ob
   providers: [
     {
       provide: NeatObjectQueryService,
-      useClass: !!environment.production ? NeatObjectQueryService : NeatObjectQueryMockService
+      useClass:
+        !isMockDataUsed || !!environment.production
+          ? NeatObjectQueryService
+          : NeatObjectQueryMockService
     },
     {
       provide: ObjectNameMatchService,
-      useClass: !!environment.production ? ObjectNameMatchService : ObjectNameMatchMockService
+      useClass:
+        !isMockDataUsed || !!environment.production
+          ? ObjectNameMatchService
+          : ObjectNameMatchMockService
     }
   ],
   bootstrap: [AppEntryComponent]

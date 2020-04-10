@@ -61,7 +61,22 @@ NODE_ENV=prod \
   --base-href $BASE_HREF \
   \
   --output-path $output_dir \
-  -- --stats-json # --deploy-url $BASE_HREF \
+  -- --stats-json
+
+# Add .htaccess to output_dir
+cat >$output_dir/.htaccess <<EOL
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.html$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . ${BASE_HREF}index.html [L]
+
+Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Methods "GET,PUT,POST,DELETE"
+Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+EOL
+#
 
 if [[ $? == 0 ]]; then
   echo -e """\033[32m

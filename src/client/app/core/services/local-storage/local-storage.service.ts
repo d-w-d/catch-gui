@@ -17,6 +17,7 @@ export class LocalStorageService {
     siteTheme: 'DARK-THEME',
     isPageAnimated: true,
     isAutoNightMode: false,
+    isHappyWithCookies: false,
     hour: new Date().getHours(),
     testKey: 'foo'
   };

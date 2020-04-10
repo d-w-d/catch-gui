@@ -13,13 +13,15 @@ import {
   NeatObjectQuerySetStatus
 } from '../../actions/neat-object-query.actions';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class NeatObjectQueryEffects {
   constructor(
     private actions$: Actions<NeatObjectQueryFetchResults>,
     private neatObjectQueryer: NeatObjectQueryService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   @Effect()
@@ -31,7 +33,6 @@ export class NeatObjectQueryEffects {
       const { objectName, isRefreshed } = action.payload;
 
       return this.neatObjectQueryer.queryNeatObject(objectName, isRefreshed).pipe(
-        // Return multiple actions in specific order using concat operator
         switchMap(neatObjectQueryResults => {
           // Combine ra and dec
           neatObjectQueryResults.forEach((el, ind) => {
@@ -49,8 +50,14 @@ export class NeatObjectQueryEffects {
                 }),
               50
             );
+          } else {
+            setTimeout(() => this.router.navigate([''], {}), 50);
+            this.snackBar.open(`Search did not yield data for ${objectName}`, 'Close', {
+              duration: 5000
+            });
           }
 
+          // Return multiple actions in specific order using concat operator
           return concat(
             of(new NeatObjectQuerySetResults({ neatObjectQueryResults })),
             of(

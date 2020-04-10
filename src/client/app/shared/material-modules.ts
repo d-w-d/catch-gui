@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -15,6 +16,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 //
@@ -33,6 +35,7 @@ export const materialModules = [
   MatListModule,
   MatPaginatorModule,
   MatProgressSpinnerModule,
+  MatProgressBarModule,
   MatRippleModule,
   MatSelectModule,
   MatSidenavModule,
@@ -40,6 +43,7 @@ export const materialModules = [
   MatSortModule,
   MatSnackBarModule,
   MatTableModule,
+  MatButtonToggleModule,
   MatToolbarModule,
   MatTooltipModule,
   //

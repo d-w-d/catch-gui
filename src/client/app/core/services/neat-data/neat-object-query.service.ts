@@ -3,107 +3,107 @@ import { HttpClient } from '@angular/common/http';
 
 // import { ROOT_URL } from '@app/utils/root-url';
 import { Observable, from } from 'rxjs';
-import { map, mergeMap, delay, switchMap } from 'rxjs/operators';
+import { map, delay, switchMap } from 'rxjs/operators';
 import { INeatObjectQueryResult } from '@client/app/models/neat-object-query-result.model';
 import { INeatObjectQueryResultLabels } from '@client/app/models/neat-object-query-result-labels.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AppState } from '@client/app/ngrx/reducers';
+import { Store } from '@ngrx/store';
+import { NeatObjectQuerySetStatus } from '../../../ngrx/actions/neat-object-query.actions';
 
 interface ICatchObjidProbe {
   job_id: string;
   message: string;
   results: string;
+  queued: boolean;
 }
 
-export const ROOT_URL = 'https://musforti.astro.umd.edu/catch-sandbox/';
+// export const ROOT_URL = 'https://musforti.astro.umd.edu/catch/';
+export const ROOT_URL = 'https://catch.astro.umd.edu/catch-stage/';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NeatObjectQueryService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private snackBar: MatSnackBar,
+    private store: Store<AppState>
+  ) {}
 
   /**
-   * Ping initial route to determine if data for object is cached or queued
+   * Runs sequence of API calls to (i) check for cached data or trigger big query,
+   * and (ii) retrieve data
    */
   queryNeatObject(objid: string, isRefreshed?: boolean): Observable<INeatObjectQueryResult[]> {
     //
-    //
-    // isRefreshed = true;
+    isRefreshed = false;
 
     const url = ROOT_URL + `query/moving?target=${objid}${isRefreshed ? '&cached=false' : ''}`;
-    console.log('url', url);
+    // console.log('url', url);
 
     return this.httpClient.get<ICatchObjidProbe>(url).pipe(
       map((data: ICatchObjidProbe) => {
-        console.log('data', data);
         return data;
       }),
       delay(isRefreshed ? 1 * 1000 : 1000),
       switchMap(data => {
-        // console.log('data:', data);
-        const url2 = ROOT_URL + `caught/${data.job_id}`;
-
-        if (data.message.includes('Enqueued search')) {
-          //
-          return from(this.watchJobStream(data.job_id)).pipe(
-            switchMap(job_id => {
-              console.log('job_id', job_id);
-              const url3 = ROOT_URL + `caught/${job_id}`;
-              return this.httpClient
-                .get<{ count: number; job_id: string; data: INeatObjectQueryResult[] }>(url3)
-                .pipe(
-                  map(response => {
-                    console.log('response.data', response.data);
-                    return response.data;
-                  })
-                );
-            })
-          );
-
-          // this.httpClient
-          //   .get<{ count: number; job_id: string; data: INeatObjectQueryResult[] }>(url2)
-          //   .pipe(
-          //     map(response => {
-          //       console.log('response.data', response.data);
-          //       return response.data;
-          //     })
-          //   );
+        // If we did not just trigger a queued query then we can grab results immediately
+        if (!data.queued) {
+          // console.log('DENIED 1!!!');
+          const url2 = ROOT_URL + `caught/${data.job_id}`;
+          return this.httpClient
+            .get<{ count: number; job_id: string; data: INeatObjectQueryResult[] }>(url2)
+            .pipe(
+              map(response => {
+                return response.data;
+              })
+            );
         }
 
-        return this.httpClient
-          .get<{ count: number; job_id: string; data: INeatObjectQueryResult[] }>(url2)
-          .pipe(
-            map(response => {
-              console.log('response.data', response.data);
-              return response.data;
-            })
-          );
+        // Else, listen to SSE stream and then grab data
+        return from(this.watchJobStream(data.job_id)).pipe(
+          switchMap(job_id => {
+            const url3 = ROOT_URL + `caught/${job_id}`;
+            return this.httpClient
+              .get<{ count: number; job_id: string; data: INeatObjectQueryResult[] }>(url3)
+              .pipe(
+                map(response => {
+                  // console.log('response.data', response.data);
+                  return response.data;
+                })
+              );
+          })
+        );
       })
     );
   }
 
   watchJobStream(jobId: string): Promise<string> {
-    const p = new Promise<string>(resolve => {
-      //
-      const onStreamClosure = (job_id: string) => {
-        // Do sth upon closure of stream
-        console.log('closing stream');
-        resolve(job_id);
-      };
-
+    // this.snackBar.open('Please wait - this query typically takes 5-30 seconds', 'Close', {
+    //   duration: 5000
+    // });
+    const store = this.store;
+    return new Promise<string>((resolve, reject) => {
       const url = ROOT_URL + 'stream';
-      console.log('jobId', jobId, url);
-
       const source = new EventSource(url);
       source.onmessage = function(msgEvent: MessageEvent) {
-        console.log('msgEvent', msgEvent, msgEvent.data, typeof msgEvent);
-        if (msgEvent.data === jobId) {
-          console.log('this', this, typeof this);
+        try {
+          const data = JSON.parse(msgEvent.data);
+          const message: string = data.text;
+          console.log('message', message);
+          if (!!message) store.dispatch(new NeatObjectQuerySetStatus({ message }));
+          if (data.status === 'success') {
+            this.close(); // Sever connection to SSE route
+            resolve(jobId);
+          }
+        } catch (e) {
+          console.log('e message', e.message);
           this.close(); // Sever connection to SSE route
-          onStreamClosure(msgEvent.data);
+          reject();
         }
       };
     });
-    return p;
   }
 
   getNeatResultLabels() {

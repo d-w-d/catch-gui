@@ -1,41 +1,37 @@
-<div class="checkboxes-container" *ngIf="!!allColNames">
-  <div
-    class="row checkboxes-wrapper"
-    style="width: 100%; display: flex; align-items: center; justify-content: center;"
-    *ngFor="let i of getIterator()"
-  >
-    <div
-      class="col"
-      style="flex: 1; display: flex; overflow: hidden;"
-      *ngFor="let j of getRangeArr(i)"
+<div
+  #checkboxesContainer
+  class="checkboxes-container"
+  *ngIf="!!allColNames && !!labels && !!colState && latestData$ | async as data"
+  [ngClass]="{
+    'checkboxes-container-x2-col': data.width > 300,
+    'checkboxes-container-x3-col': data.width > 450,
+    'checkboxes-container-x4-col': data.width > 600,
+    'checkboxes-container-x5-col': data.width > 750
+  }"
+>
+  <div class="button-wrapper" *ngFor="let colName of allColNames">
+    <button mat-icon-button [matTooltip]="labels[colName] ? labels[colName].description : ''">
+      <mat-icon>info</mat-icon>
+    </button>
+    <mat-checkbox
+      color="accent"
+      class="example-margin"
+      [checked]="colState[colName]"
+      (change)="updateColState($event, colName)"
+      >{{ colName }}</mat-checkbox
     >
-      <button
-        *ngIf="!!labels && labels[allColNames[i + j]] && labels[allColNames[i + j]].description"
-        mat-icon-button
-        [matTooltip]="labels[allColNames[i + j]].description"
-      >
-        <mat-icon>info</mat-icon>
-      </button>
-      <mat-checkbox
-        color="accent"
-        class="example-margin"
-        [checked]="colState[allColNames[i + j]]"
-        (change)="updateColState($event, allColNames[i + j])"
-        >{{ allColNames[i + j] }}</mat-checkbox
-      >
-    </div>
   </div>
+</div>
 
-  <div class="row reset-select-all-buttons-wrapper">
-    <div class="col-6" style="flex: 1; display: flex; overflow: hidden; margin: 3px;">
-      <button mat-raised-button color="accent" style="width: 100%;" (click)="selectAll()">
-        SELECT ALL
-      </button>
-    </div>
-    <div class="col-6" style="flex: 1; display: flex; overflow: hidden; margin: 3px;">
-      <button mat-raised-button color="accent" style="width: 100%;" (click)="resetAll()">
-        RESET
-      </button>
-    </div>
+<div class="utility-buttons-wrapper">
+  <div class="utility-button">
+    <button mat-raised-button color="accent" (click)="selectAll()">
+      SELECT ALL
+    </button>
+  </div>
+  <div class="utility-button">
+    <button mat-raised-button color="accent" (click)="resetAll()">
+      RESET
+    </button>
   </div>
 </div>

@@ -47,7 +47,7 @@ export class ContactPageComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       grecaptcha.render('recaptcha-id', {
         sitekey: environment.recaptchaSiteKey,
-        theme: 'dark',
+        theme: this.theme.toUpperCase().includes('LIGHT') ? 'light' : 'dark',
         size: 'normal',
         callback: token => {
           this.recaptchaToken = token;

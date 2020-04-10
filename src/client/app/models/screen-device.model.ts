@@ -1,4 +1,7 @@
+export type TDevices = 'mobile' | 'tablet' | 'desktop';
+
 export interface IScreenDevice {
-  device: 'mobile' | 'tablet' | 'desktop';
+  device: TDevices;
+  layout: 'auto' | TDevices;
   screenWidthPxls: number;
 }

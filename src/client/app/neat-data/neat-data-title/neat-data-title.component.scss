@@ -1,13 +1,84 @@
 :host {
+  min-width: 350px;
   width: 100%;
   height: 100%;
-  display: flex;
+  // display: flex;
   justify-content: center;
   align-items: center;
 }
 
-h2 {
-  margin: 0px 0px;
-  width: 400px;
-  text-align: center;
+.title-container {
+  $nCols: 4;
+  display: grid;
+  grid-template-rows: repeat(1, minmax(0px, 1fr));
+  grid-template-columns: repeat($nCols, minmax(0px, 1fr));
+
+  margin: 5px 5px;
+  box-sizing: border-box;
+  // background-color: red;
+
+  .title {
+    grid-column: 1 / #{$nCols + 1};
+    grid-row: 1 / 2;
+
+    // background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      margin: 0px 0px;
+      // margin-bottom: 10px;
+      text-align: center;
+      // white-space: nowrap;
+    }
+  }
+
+  .button-group {
+    grid-column: 1 / #{$nCols + 1};
+    grid-row: 2 / 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    button {
+      width: 30px;
+      padding: 0px;
+    }
+  }
+}
+
+.single-row {
+  $nCols: 8;
+  grid-template-rows: repeat(1, minmax(0px, 1fr));
+  grid-template-columns: repeat($nCols, minmax(0px, 1fr));
+
+  .title {
+    grid-row: 1 / 2;
+    grid-column: 1 / #{$nCols / 2 + 1};
+  }
+
+  .button-group {
+    grid-row: 1 / 2;
+    grid-column: #{$nCols / 2 + 1} / #{$nCols + 1};
+  }
+}
+
+.hide-buttons {
+  $nCols: 4;
+  display: grid;
+  grid-template-rows: repeat(1, minmax(0px, 1fr));
+  grid-template-columns: repeat($nCols, minmax(0px, 1fr));
+
+  .title {
+    grid-column: 1 / #{$nCols + 1};
+    grid-row: 1 / 2;
+  }
+
+  .button-group {
+    display: none;
+  }
 }

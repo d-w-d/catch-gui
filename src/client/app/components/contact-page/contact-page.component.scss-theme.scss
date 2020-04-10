@@ -7,14 +7,16 @@
   $foreground: map-get($theme, foreground);
   $background: map-get($theme, background);
 
-  app-contact-page {
-    background-color: #222;
+  .dark-theme {
+    app-contact-page {
+      background-color: #222;
 
-    .mat-card-theme-override {
-      // background-color: rgba(mat-color($accent, darker), 0.9);
+      .mat-card-theme-override {
+        // background-color: rgba(mat-color($accent, darker), 0.9);
 
-      // Make same color as dark recaptcha
-      // background-color: #222;
+        // Make same color as dark recaptcha
+        // background-color: #222;
+      }
     }
   }
 }

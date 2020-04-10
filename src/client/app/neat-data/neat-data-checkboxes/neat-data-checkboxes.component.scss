@@ -12,27 +12,48 @@
 }
 
 .checkboxes-container {
-  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  // grid-template-rows: auto;
 
-  .row {
-    margin: 0px 0px;
-    padding: 0px 0px;
-    .col {
-      margin: 0px 0px;
-      padding: 0px 0px;
-      align-items: center;
-      display: flex;
-      button {
-        transform: translateY(-4px);
-      }
-    }
-  }
-
-  .reset-select-all-buttons-wrapper {
-    width: 100%;
+  .button-wrapper {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin: 10px 0px;
+    button {
+      transform: translateY(-4px);
+    }
   }
+}
+
+.utility-buttons-wrapper {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  .utility-button {
+    margin: 10px 0px;
+    width: 100%;
+    flex: 1 0px 100px;
+    button {
+      width: 100%;
+    }
+  }
+}
+
+.checkboxes-container-x2-col {
+  grid-template-columns: repeat(2, 1fr);
+}
+.checkboxes-container-x3-col {
+  grid-template-columns: repeat(3, 1fr);
+}
+.checkboxes-container-x4-col {
+  grid-template-columns: repeat(4, 1fr);
+}
+.checkboxes-container-x5-col {
+  grid-template-columns: repeat(5, 1fr);
+}
+.checkboxes-container-x6-col {
+  grid-template-columns: repeat(6, 1fr);
 }

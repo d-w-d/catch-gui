@@ -33,10 +33,8 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
   // successColor = '#66ff00'; // my green
   // successColor = '#FFC107'; // amber
   successColor = '#689F38'; // mat-green
-
-  // rxjs stuff
+  subscriptions = new Subscription();
   searchTermChangeSubject: Subject<string> = new Subject<string>();
-  searchTermChangeSubscription: Subscription;
 
   constructor(private router: Router, private store: Store<AppState>) {
     // Define form group
@@ -48,35 +46,39 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
       forceRefresh: new FormControl({ value: false })
     });
 
-    // Get latest object-name-match results
-    this.store.select(selectObjectNameMatchResults).subscribe(results => {
-      // Update local tracker
-      this.objectNameMatchResults = results;
-      // Compute length of longest display text
-      this.lengthOfLongestDisplayText = results
-        .map(el => el.display_text.length)
-        .reduce((acc, el) => {
-          return Math.max(acc, el);
-        }, 0);
-    });
+    this.subscriptions.add(
+      this.store.select(selectObjectNameMatchResults).subscribe(results => {
+        this.objectNameMatchResults = results;
+        // Compute length of longest display text
+        this.lengthOfLongestDisplayText = results
+          .map(el => el.display_text.length)
+          .reduce((acc, el) => {
+            return Math.max(acc, el);
+          }, 0);
+      })
+    );
 
-    this.store
-      .select(selectNeatObjectQueryStatus)
-      .subscribe(status => (this.isWaitingForData = !!status && status.code === 'searching'));
+    this.subscriptions.add(
+      this.store.select(selectNeatObjectQueryStatus).subscribe(status => {
+        this.isWaitingForData = !!status && status.code === 'searching';
+      })
+    );
 
     // When the text of the input field updates, call the name-search api
-    this.searchTermChangeSubscription = this.searchTermChangeSubject
-      .pipe(debounceTime(200), distinctUntilChanged())
-      .subscribe(latestInputText => {
-        this.latestInputText = latestInputText;
-        this.store.dispatch(new ObjectNameMatchFetchResults({ searchTerm: latestInputText }));
-      });
+    this.subscriptions.add(
+      this.searchTermChangeSubject
+        .pipe(debounceTime(200), distinctUntilChanged())
+        .subscribe(latestInputText => {
+          this.latestInputText = latestInputText;
+          this.store.dispatch(new ObjectNameMatchFetchResults({ searchTerm: latestInputText }));
+        })
+    );
   }
 
   ngOnInit() {}
 
   ngOnDestroy() {
-    this.searchTermChangeSubscription.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 
   isObjectNameMatched() {
@@ -86,6 +88,7 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
 
   submitObjectNameMatch(e: MouseEvent) {
     e.stopPropagation();
+    // console.log('CLICK LAUNCH');
     this.tryLaunchingObjectQuery(true);
   }
 
@@ -109,8 +112,13 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
     const objectName = !!objectNameMatchResult && objectNameMatchResult.target;
 
     if (this.isObjectNameMatched() && !!objectName) {
-      console.log('Dispatching');
-      this.store.dispatch(new NeatObjectQuerySetStatus({ objid: objectName, code: 'searching' }));
+      this.store.dispatch(
+        new NeatObjectQuerySetStatus({
+          objid: objectName,
+          message: 'Starting search....',
+          code: 'searching'
+        })
+      );
       this.store.dispatch(new NeatObjectQueryFetchResults({ objectName, isRefreshed }));
     }
   }
@@ -127,6 +135,7 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
       keyCode = (event as any).keyCode;
     }
     if (keyCode === 'Enter') {
+      console.log('KEY LAUNCH');
       this.tryLaunchingObjectQuery(false);
     }
   }

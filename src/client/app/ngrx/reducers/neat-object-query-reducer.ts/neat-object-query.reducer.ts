@@ -23,7 +23,7 @@ export interface INeatObjectQuerySubstate {
 
 export const initialState: INeatObjectQuerySubstate = {
   neatObjectSelectedResultIndex: 0,
-  neatObjectQueryResults: [],
+  neatObjectQueryResults: undefined,
   neatObjectQueryResultLabels: undefined,
   neatObjectQueryStatus: undefined,
   neatObjectQueryColumnState: { ...initialColumnState }
@@ -62,7 +62,7 @@ export function NeatObjectQueryReducer(
     case ENeatObjectQueryActionTypes.NeatObjectQuerySetStatus:
       return {
         ...state,
-        neatObjectQueryStatus: { ...action.payload }
+        neatObjectQueryStatus: { ...state.neatObjectQueryStatus, ...action.payload }
       };
 
     default:

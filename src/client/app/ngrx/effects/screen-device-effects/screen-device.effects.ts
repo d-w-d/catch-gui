@@ -16,7 +16,7 @@ import {
 @Injectable()
 export class ScreenDeviceEffects {
   //
-  resizeEvent$ = new BehaviorSubject<IScreenDevice>({
+  resizeEvent$ = new BehaviorSubject<Partial<IScreenDevice>>({
     device: getDevice(),
     screenWidthPxls: window.outerWidth
   });

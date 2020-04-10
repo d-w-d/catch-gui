@@ -18,6 +18,8 @@ if [[ -z $1 ]]; then
   exit 1
 fi
 
+optional_prefix=/catch-gui
+
 ###############################################
 # CONFIRM VERSION NAME TO BE DEPLOYED
 ###############################################
@@ -26,7 +28,7 @@ echo -e """\033[32m
 ====================================================================
 Are you sure you want to build and deploy the checked-out branch to:
 
-https://$LINUX_HOST/$1
+https://$LINUX_HOST/$optional_prefix/$1
 
 Type '\033[31myes\033[32m' to continue.
 
@@ -42,8 +44,6 @@ fi
 ###############################################
 # BUILD PAGES FOR REMOTE LINUX
 ###############################################
-
-optional_prefix=/catch-gui
 
 # First argument is name of output dist and final extension
 # Second argument is optional prefix
@@ -64,10 +64,10 @@ DEPLOYING BUNDLES TO: \033[0m https://$LINUX_HOST/$optional_prefix/$1 \033[32m
 \033[0m"""
 
 # RSYNC BUILD TO LINUX DEPLOYMENT
-cmd="rsync -avzd $PWD/dist-linux/ $LINUX_USER@$LINUX_HOST:$LINUX_CATCH_GUI_PATH/$1"
+cmd="rsync -avzd $PWD/dist-linux/ $LINUX_USER@$LINUX_HOST:$LINUX_VERSIONED_CATCH_GUI_PATH/$1"
 eval $cmd
 echo $cmd
-cmd="rsync -avzd $PWD/dist-linux/ $LINUX_USER@$LINUX_HOST:$LINUX_CATCH_GUI_PATH/latest"
+cmd="rsync -avzd $PWD/dist-linux/ $LINUX_USER@$LINUX_HOST:$LINUX_VERSIONED_CATCH_GUI_PATH/latest"
 eval $cmd
 echo $cmd
 

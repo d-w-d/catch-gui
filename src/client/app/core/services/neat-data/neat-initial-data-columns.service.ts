@@ -5,9 +5,9 @@ export const initialColumnState = {
   delta: true,
   rh: true,
   tmtp: true,
-  trueanomaly: true,
   designation: true,
   dra: true,
+  vmag: true,
   //
   airmass: false,
   archive_url: false,
@@ -18,15 +18,16 @@ export const initialColumnState = {
   instrument: false,
   jd: false,
   phase: false,
+  preview_url: false,
   productid: false,
   rdot: false,
   sangle: false,
   selong: false,
+  trueanomaly: false,
   unc_a: false,
   unc_b: false,
   unc_theta: false,
-  vangle: false,
-  vmag: false
+  vangle: false
 };
 
 export type TColName = keyof typeof initialColumnState;

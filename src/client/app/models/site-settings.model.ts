@@ -1,7 +1,8 @@
 export interface ISiteSettings {
   siteTheme: TPermittedTheme;
-  isPageAnimated: boolean;
+  isHappyWithCookies: boolean;
   isAutoNightMode: boolean;
+  isPageAnimated: boolean;
   hour: number;
 }
 

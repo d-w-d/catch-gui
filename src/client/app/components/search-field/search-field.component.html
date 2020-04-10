@@ -1,4 +1,3 @@
-<!-- <mat-card class="search-form"> -->
 <form class="search-form" [formGroup]="myForm" (keydown)="keyDownOnInputText($event)">
   <mat-form-field [color]="getFormColor()" appearance="outline" class="search-full-width">
     <mat-label>{{ getSearchMessageText() }}</mat-label>
@@ -33,20 +32,5 @@
       <mat-icon matSuffix *ngIf="!isObjectNameMatched()">search</mat-icon>
       <mat-icon *ngIf="isObjectNameMatched()" [ngStyle]="{ color: successColor }">done</mat-icon>
     </button>
-
-    <!-- <div class="xxx">
-      <mat-spinner *ngIf="!!isWaitingForData" diameter="40"></mat-spinner>
-      <mat-checkbox
-        *ngIf="!isWaitingForData"
-        formControlName="forceRefresh"
-        color="primary"
-        value="false"
-      ></mat-checkbox>
-    </div> -->
   </mat-form-field>
-  <!-- <button mat-button primary style="margin: 10px 20px; box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);">
-    SUBMIT
-  </button> -->
 </form>
-
-<!-- </mat-card> -->

@@ -1,8 +1,10 @@
-@import '../../../styles/styles-variables';
-
-.about-container {
+.apis-container {
   width: 90%;
   padding: 30px;
   margin: auto auto;
   overflow: hidden;
+
+  code {
+    border-radius: 0px;
+  }
 }

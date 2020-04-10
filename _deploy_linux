@@ -1,0 +1,51 @@
+#! /bin/bash
+
+###############################################
+# INIT PARAMS
+###############################################
+
+# Import env variables:
+if [ -f $PWD/.env ]; then
+  source .env
+else
+  echo "No .env file found!!!"
+  return 1
+fi
+
+###############################################
+# CONFIRM DEPLOYMENT
+###############################################
+
+clear
+echo -e """\033[32m
+====================================================================
+Are you sure you want to deploy the local-dist to: \033[0m
+
+https://$LINUX_HOST/  \033[32m
+
+Type '\033[31myes\033[32m' to continue.
+
+====================================================================
+\033[0m"""
+
+read decision
+if [[ $decision != yes ]]; then
+  echo "Cancelling."
+  exit 0
+fi
+
+###############################################
+# DEPLOY TO REMOTE LINUX
+###############################################
+
+# RSYNC BUILD TO LINUX DEPLOYMENT
+cmd="rsync -avzd $PWD/dist-local/ $LINUX_USER@$LINUX_HOST:$LINUX_CATCH_GUI_PATH"
+eval $cmd
+echo $cmd
+
+echo -e """\033[32m
+==========================================================
+Done. Your page has been deployed to: \033[0m
+https://$LINUX_HOST/ \033[32m
+==========================================================
+\033[0m"""

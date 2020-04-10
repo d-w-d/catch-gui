@@ -37,5 +37,6 @@ export interface INeatObjectQueryResultLabels {
 
 export interface INeatObjectQueryStatus {
   objid: string;
-  code: 'searching' | 'found' | 'notfound';
+  message: string;
+  code: 'searching' | 'found' | 'notfound' | 'unknown';
 }

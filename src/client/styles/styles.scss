@@ -34,6 +34,7 @@
 @import '../app/components/fits-graphic/fits-graphic.component.scss-theme.scss';
 @import '../app/neat-data/neat-data-image-wheel/neat-data-image-wheel.component.scss-theme';
 @import '../app/neat-data/neat-data-table/neat-data-table.component.scss-theme.scss';
+@import '../app/neat-data/neat-data-page.component.scss-theme.scss';
 
 // Define mixin that implements all custom-component theme-dependent mixins
 @mixin custom-components-theme($theme) {
@@ -45,6 +46,7 @@
   @include app-settings-page-component-theme($theme);
   @include app-neat-data-image-wheel-component-theme($theme);
   @include app-neat-data-table-component-theme($theme);
+  @include app-neat-data-page-component-theme($theme);
   @include app-fits-graphic-component-theme($theme);
 }
 

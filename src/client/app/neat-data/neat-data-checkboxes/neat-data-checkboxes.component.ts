@@ -1,13 +1,12 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { Subscription } from 'rxjs';
+import { Subscription, combineLatest, interval, Observable } from 'rxjs';
+import { take, map, distinctUntilChanged, delay } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
 
 import { AppState } from '@client/app/ngrx/reducers';
 import { NeatObjectQuerySetColumnState } from '@client/app/ngrx/actions/neat-object-query.actions';
 import { INeatObjectQueryResultLabels } from '@client/app/models/neat-object-query-result-labels.model';
-import { isMobile } from './../../utils/is-mobile';
 import {
   selectNeatObjectQueryColumnState,
   selectNeatObjectQueryResultLabels
@@ -27,15 +26,14 @@ import {
 export class NeatDataCheckboxesComponent implements OnInit, OnDestroy {
   //
 
-  @Input()
-  colNum = 2;
+  @ViewChild('checkboxesContainer')
+  checkboxesContainer: ElementRef<HTMLDivElement>;
 
   subscriptions = new Subscription();
   allColNames: TColName[];
   colState: TColInitState;
   labels: INeatObjectQueryResultLabels;
-  innerWidth: number;
-  isMobile = isMobile;
+  latestData$: Observable<{ width: number }>;
 
   constructor(
     private neatInitColsService: NeatInitialDataColumnsService,
@@ -55,6 +53,22 @@ export class NeatDataCheckboxesComponent implements OnInit, OnDestroy {
         .pipe(take(1))
         .subscribe(labels => (this.labels = labels))
     );
+
+    this.latestData$ = combineLatest([
+      interval(500).pipe(
+        map(_ =>
+          this.checkboxesContainer ? this.checkboxesContainer.nativeElement.offsetWidth : 100
+        ),
+        distinctUntilChanged()
+      )
+    ]).pipe(
+      delay(10),
+      map(([width]): { width: number } => {
+        return {
+          width
+        };
+      })
+    );
   }
 
   ngOnInit() {}
@@ -64,34 +78,6 @@ export class NeatDataCheckboxesComponent implements OnInit, OnDestroy {
   updateColState(e: MatCheckboxChange, colName: TColName) {
     this.colState[colName] = e.checked;
     this.store.dispatch(new NeatObjectQuerySetColumnState({ newColState: { ...this.colState } }));
-  }
-
-  /**
-   * The following getXXX methods implement fiddly logic
-   * for populating the right number of checkboxes in a grid
-   * based upon arbitrary grid width.
-   */
-
-  getIncrement() {
-    return this.colNum;
-  }
-
-  getIterator() {
-    const increment = this.getIncrement();
-    const res = this.allColNames
-      .map((el, ind) => ind * increment)
-      .filter((el, ind, arr) => ind <= arr.length / increment);
-    // console.log('iterator', res);
-    return res;
-  }
-
-  getRangeArr(flooredIndex): number[] {
-    let increment = this.getIncrement();
-    // Reduce increment to avoid indexing past length of allColNames
-    if (flooredIndex + increment > this.allColNames.length)
-      increment = this.allColNames.length - flooredIndex;
-    const res = Array.from({ length: increment }, (v, k) => k);
-    return res;
   }
 
   selectAll() {

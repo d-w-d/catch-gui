@@ -1,54 +1,50 @@
-<mat-toolbar color="primary">
-  <div class="toolbar-cell">
-    <a href="https://github.com/dwd-umd/catch-apis" target="_blank">
-      <div class="icon-wrapper start">
-        <mat-icon style="transform: translate(0px,-5px);">
-          <fa-icon [icon]="['fab', 'github']"></fa-icon>
-        </mat-icon>
-        <span class="icon-descriptor">
-          {{ 'Github' }}
-        </span>
-      </div>
-    </a>
-  </div>
-  <div class="toolbar-cell">
-    <div class="text-wrapper" routerLink>
-      <div class="first">{{ ' Copyright © ' + timeStamp + ' ' }}</div>
-      <div class="second">{{ ' Small Bodies Node ' }}</div>
-    </div>
-  </div>
-  <div class="toolbar-cell">
-    <a href="https://pds-smallbodies.astro.umd.edu/" target="_blank">
-      <div class="icon-wrapper start">
-        <img [src]="sbnLogo" alt="" />
-      </div>
-    </a>
-  </div>
+<div class="mat-toolbar-wrapper">
+  <div
+    class="cookie-message-wrapper"
+    *ngIf="!(isHappyWithCookie$ | async) as isNotHappyWithCookie; else isHappyWithCookie"
+  >
+    <div class="screen-filter"></div>
 
-  <!-- <a href="https://github.com/dwd-umd/catch-apis" target="_blank">
-    <div class="icon-wrapper start">
-      <mat-icon style="transform: translate(0px,-5px);">
-        <fa-icon [icon]="['fab', 'github']"></fa-icon>
-      </mat-icon>
-      <span class="icon-descriptor">
-        {{ 'Github' }}
+    <div>
+      <span>
+        This site uses third party services that will in general leave cookies. Click to accept
+        <a routerLink="terms">terms</a>.
       </span>
     </div>
-  </a>
-
-  <div class="icon-wrapper" routerLink>
-    <div class="icon-descriptor" style="font-size: 10px; text-align: center; line-height: 10px;">
-      <span style="width: 100%; background-color: pink; white-space: wrap;">
-        Copyright © {{ timeStamp }}</span
-      >
-      <span style="display: inline-block; background-color: cyan; white-space: wrap;">
-        Small Bodies Node</span
-      >
+    <div>
+      <button mat-raised-button (click)="acceptTerms($event)">
+        I Accept
+      </button>
     </div>
   </div>
-  <div class="icon-wrapper end" routerLink="/">
-    <a href="https://pds-smallbodies.astro.umd.edu/" target="_blank">
-      <img [src]="sbnLogo" alt="" />
-    </a>
-  </div> -->
-</mat-toolbar>
+
+  <ng-template #isHappyWithCookie>
+    <mat-toolbar color="primary">
+      <div class="toolbar-cell">
+        <a href="https://github.com/dwd-umd/catch-apis" target="_blank">
+          <div class="icon-wrapper start">
+            <mat-icon style="transform: translate(0px,-5px);">
+              <fa-icon [icon]="['fab', 'github']"></fa-icon>
+            </mat-icon>
+            <span class="icon-descriptor">
+              {{ 'Github' }}
+            </span>
+          </div>
+        </a>
+      </div>
+      <div class="toolbar-cell">
+        <div class="text-wrapper" routerLink>
+          <div class="first">{{ ' Copyright © ' + timeStamp + ' ' }}</div>
+          <div class="second">{{ ' Small Bodies Node ' }}</div>
+        </div>
+      </div>
+      <div class="toolbar-cell">
+        <a href="https://pds-smallbodies.astro.umd.edu/" target="_blank">
+          <div class="icon-wrapper start">
+            <img [src]="sbnLogo" alt="" />
+          </div>
+        </a>
+      </div>
+    </mat-toolbar>
+  </ng-template>
+</div>

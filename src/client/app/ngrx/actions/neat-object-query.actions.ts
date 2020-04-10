@@ -51,7 +51,7 @@ export class NeatObjectQuerySetResultLabels implements Action {
 
 export class NeatObjectQuerySetStatus implements Action {
   readonly type = ENeatObjectQueryActionTypes.NeatObjectQuerySetStatus;
-  constructor(public payload: INeatObjectQueryStatus) {}
+  constructor(public payload: Partial<INeatObjectQueryStatus>) {}
 }
 
 export class NeatObjectQueryResultsLoaded implements Action {

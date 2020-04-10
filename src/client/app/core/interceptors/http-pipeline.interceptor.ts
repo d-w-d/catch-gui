@@ -11,6 +11,9 @@ import { Observable, throwError, of } from 'rxjs';
 import { timeout, map, catchError, filter, retry } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { apiDefaultTimeoutMs } from 'src/client/app/utils/constants';
+import { Store } from '@ngrx/store';
+import { AppState } from '@client/app/ngrx/reducers';
+import { NeatObjectQuerySetStatus } from '@client/app/ngrx/actions/neat-object-query.actions';
 
 /**
  * Single interceptor to handle all http requests
@@ -19,7 +22,7 @@ import { apiDefaultTimeoutMs } from 'src/client/app/utils/constants';
  */
 @Injectable()
 export class PipelineInterceptor implements HttpInterceptor {
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private snackBar: MatSnackBar, private store: Store<AppState>) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     //
@@ -81,13 +84,23 @@ export class PipelineInterceptor implements HttpInterceptor {
         this.snackBar.open(clientMessage, 'Close', {
           duration: 5000
         });
+
+        // Stop querying data
+        this.store.dispatch(
+          new NeatObjectQuerySetStatus({
+            code: 'unknown',
+            objid: undefined
+          })
+        );
+        // NeatObjectQuerySetStatus
+
         // Throw error
         console.log('######', errorMessage);
         return throwError(errorMessage);
       }),
 
       // Retry?
-      // retry(1),
+      // retry(3),
 
       // Last chance café for printout
       map(

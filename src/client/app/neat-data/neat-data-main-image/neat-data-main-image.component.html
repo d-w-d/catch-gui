@@ -4,13 +4,14 @@
       *ngIf="!isFits"
       class="main-image"
       [ngStyle]="{
-        backgroundImage: 'url(' + data.thumbUrl + ')',
-        height: data.width + 'px'
+        backgroundImage: 'url(' + data.fullUrl + ')',
+        height: '100%'
       }"
     ></div>
     <app-fits-graphic
       *ngIf="isFits"
       [width]="data.width"
+      [height]="data.height"
       [fitsUrl]="data.fitsUrl"
       (isFitsLoaded)="raiseButton($event)"
     ></app-fits-graphic>
@@ -18,9 +19,9 @@
       mat-fab
       (click)="toggleFits($event)"
       class="edit-fab"
-      [ngClass]="{ xxx: isButtonRaised }"
+      [ngClass]="{ 'raise-button': isButtonRaised }"
     >
-      <mat-icon>{{ isFits ? 'image' : 'brush' }}</mat-icon>
+      <mat-icon>{{ isFits ? 'image' : 'build' }}</mat-icon>
     </button>
   </ng-container>
   <ng-template #loading>

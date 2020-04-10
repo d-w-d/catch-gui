@@ -7,7 +7,8 @@ export const initialState: ISiteSettingsSubstate = {
   siteTheme: 'DARK-THEME',
   hour: new Date().getHours(),
   isPageAnimated: true,
-  isAutoNightMode: false
+  isAutoNightMode: false,
+  isHappyWithCookies: false
 };
 
 export function siteSettingsReducer(
@@ -26,11 +27,16 @@ export function siteSettingsReducer(
         hour: action.payload.hour
       };
 
-    case ESiteSettingsActionTypes.SiteSettingsIsAutoNightMode:
+    case ESiteSettingsActionTypes.SiteSettingsSetIsAutoNightMode:
       return {
         ...state,
-        // isAutoNightMode: action.payload.isAutoNightMode
-        isAutoNightMode: !state.isAutoNightMode
+        isAutoNightMode: action.payload.isAutoNightMode
+      };
+
+    case ESiteSettingsActionTypes.SiteSettingsSetIsHappyWithCookies:
+      return {
+        ...state,
+        isHappyWithCookies: action.payload.isHappyWithCookies
       };
 
     case ESiteSettingsActionTypes.SiteSettingsSetSiteTheme:

@@ -1,1 +1,38 @@
-<h2>{{ 'NEAT DATA FOR ' + objid }}</h2>
+<div
+  #titleContainer
+  class="title-container"
+  *ngIf="latestData$ | async as data"
+  [ngClass]="{
+    'single-row': data.width > 550,
+    'hide-buttons': device === 'mobile'
+  }"
+>
+  <div class="title">
+    <h2>{{ 'NEAT DATA: ' + objid }}</h2>
+  </div>
+
+  <div class="button-group">
+    <button mat-button (click)="refreshScreen()">
+      <mat-icon>refresh</mat-icon>
+    </button>
+
+    <mat-button-toggle-group
+      #group="matButtonToggleGroup"
+      [value]="toggleValue"
+      (change)="setToggleValue(group.value)"
+    >
+      <mat-button-toggle value="auto" aria-label="Auto">
+        AUTO
+      </mat-button-toggle>
+      <mat-button-toggle value="mobile" aria-label="Smartphone">
+        <mat-icon>smartphone</mat-icon>
+      </mat-button-toggle>
+      <mat-button-toggle value="tablet" aria-label="Tablet">
+        <mat-icon>tablet</mat-icon>
+      </mat-button-toggle>
+      <mat-button-toggle value="desktop" aria-label="Tv">
+        <mat-icon>tv</mat-icon>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</div>

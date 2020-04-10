@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from '@client/environments/environment';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+
+import {
+  selectSiteSettingsIsHappyWithCookies,
+  selectSiteSettingsHour
+} from '../../ngrx/selectors/site-settings.selectors';
+import { SiteSettingsSetIsHappyWithCookies } from '../../ngrx/actions/site-settings.actions';
+import { AppState } from '@client/app/ngrx/reducers';
 
 @Component({
   selector: 'app-footer',
@@ -14,9 +22,35 @@ export class FooterComponent implements OnInit {
   timeStamp = ' ' + new Date().getFullYear();
 
   // sbnLogo = 'assets/images/pngs/bw_sbn_logo_v1.png';
-  sbnLogo = 'assets/images/pngs/sbn_logo4_v0.png';
+  // sbnLogo = 'assets/images/pngs/sbn_logo4_v0.png';
+  sbnLogo = 'assets/images/pngs/sbn_logo5_v0.png';
 
-  constructor() {}
+  isHappyWithCookie$: Observable<boolean>;
+
+  constructor(private store: Store<AppState>) {
+    this.isHappyWithCookie$ = this.store.select(selectSiteSettingsIsHappyWithCookies);
+
+    // this.store.select(selectSiteSettingsIsAutoNightMode).subscribe(_ => {
+    //   console.log('----', _);
+    // });
+
+    // this.store.select(selectSiteSettingsEffectiveTheme).subscribe(_ => {
+    //   console.log('----', _);
+    // });
+
+    // this.store.select(selectSiteSettingsIsNightHour).subscribe(_ => {
+    //   console.log('----', _);
+    // });
+
+    this.store.select(selectSiteSettingsHour).subscribe(_ => {
+      // console.log('----', _);
+    });
+  }
 
   ngOnInit() {}
+
+  acceptTerms(e: any) {
+    console.log('????');
+    this.store.dispatch(new SiteSettingsSetIsHappyWithCookies({ isHappyWithCookies: true }));
+  }
 }

@@ -1,26 +1,44 @@
 <div class="about-container">
   <h2>ABOUT</h2>
+
+  <h3>Acceptable Usage of Site</h3>
+
   <p>
-    CATCH is a moving target search tool for large data sets, such as time-domain or near-Earth
-    object surveys. For a given target, CATCH identifies images that cover the ephemeris position.
-    Use CATCH to help identify pre-discovery detections, to examine past cometary activity, or to
-    understand why a survey did not detect or report observations of an object. CATCH has an
-    interactive web-based interface and a fully featured API for end user's applications.
+    This site -- The Comet-Asteroid Telescopic Catalog Hub/Hunter/Harvester (CATCH) -- is a service
+    built and operated by the
+    <a href="https://pds-smallbodies.astro.umd.edu/">Small Bodies Node</a> of the
+    <a href="https://pds.nasa.gov/">Nasa Planetary Data Science</a> group at the
+    <a href="https://www.umd.edu/">University of Maryland</a>. You are welcome to use the tool for
+    research and educational purposes. By using this tool, you agree to our
+    <a routerLink="/terms">terms and conditions</a>.
   </p>
 
-  <h2>
+  <h3>CATCH Overview</h3>
+
+  <p>
+    CATCH is a moving-target search tool for large data sets, such as time-domain or near-Earth
+    object surveys. You submit the name of an asteroid/comet, and CATCH will use the most recently
+    computed parameters for that object's orbital trajectory to compute whether that trajectory
+    intersects 'pre-discovery detections' made by telescopes in the past and, if so, to return all
+    the salient data available from any such survey to you the researcher. The telescopic surveys
+    are the haystack, and the comet/asteroid is the needle that CATCH will help you find. Use CATCH
+    to help identify pre-discovery detections, to examine past cometary activity, or to understand
+    why a survey did not detect or report observations of an object.
+  </p>
+
+  <h3>
     CATCH limitations and caveats
-  </h2>
+  </h3>
   <p>
     CATCH does not perform detection-based searches, i.e., it cannot determine if an object was
     observed. Instead, it identifies images that
-    <em>could</em> have observed a target, based the ephemeris. This search requires that the
-    ephemeris correctly describes the target's motion on the sky. CATCH properly considers the
-    source data observatory when computing ephemerides. CATCH does not consider ephemeris
+    <em>could</em> have observed a target, based on the target's ephemeris. This search requires
+    that the ephemeris correctly describes the target's motion on the sky. CATCH properly considers
+    the source data observatory when computing ephemerides. CATCH does not consider ephemeris
     uncertainties in the search. This capability has been reserved for a future enhancement.
   </p>
 
-  <h2>Data sources</h2>
+  <h3>Data sources</h3>
 
   <p>
     Near-Earth Asteroid Tracking (NEAT) survey data is from the NASA Planetary Data System archive
@@ -34,13 +52,14 @@
     <li>NEAT Palomar Tri-Cam, Palomar Observatory, November 2001 &ndash March 2003.</li>
   </ul>
 
-  <h2>
+  <h3>
     Acknowledgements
-  </h2>
+  </h3>
   <p>
-    This software is built entirely through open-source resources, and so we thank all of the
-    authors in the JS/python community. Special thanks to Eric Mandel for building the JS9 fits-file
-    tool and for his assistance in integrating it into this
+    This software is built entirely with open-source resources, and so we thank all of the authors
+    in the JS/python community. Special thanks to Eric Mandel for building the
+    <a href="https://js9.si.edu/">JS9 fits-file viewer</a>
+    and for his assistance in integrating it into this
     <a href="https://en.wikipedia.org/wiki/Angular_(web_framework)">angular</a>
     <a href="https://en.wikipedia.org/wiki/Single-page_application"> SPA</a>.
   </p>

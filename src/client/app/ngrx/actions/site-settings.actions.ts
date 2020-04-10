@@ -7,7 +7,8 @@ export enum ESiteSettingsActionTypes {
   SiteSettingsSetHour = '[SiteSettings] Set Hour',
   SiteSettingsSetSiteTheme = '[SiteSettings] Set SiteTheme',
   SiteSettingsSetIsPageAnimated = '[SiteSettings] Set IsPageAnimated',
-  SiteSettingsIsAutoNightMode = '[SiteSettings] Set IsAutoNightMode',
+  SiteSettingsSetIsAutoNightMode = '[SiteSettings] Set IsAutoNightMode',
+  SiteSettingsSetIsHappyWithCookies = '[SiteSettings] Set IsHappyWithCookies',
   SiteSettingsLoadAllFromLocalStorage = '[SiteSettings] Load All From LocalStorage'
 }
 
@@ -32,8 +33,13 @@ export class SiteSettingsSetIsPageAnimated implements Action {
 }
 
 export class SiteSettingsSetIsAutoNightMode implements Action {
-  readonly type = ESiteSettingsActionTypes.SiteSettingsIsAutoNightMode;
+  readonly type = ESiteSettingsActionTypes.SiteSettingsSetIsAutoNightMode;
   constructor(public payload: { isAutoNightMode: boolean }) {}
+}
+
+export class SiteSettingsSetIsHappyWithCookies implements Action {
+  readonly type = ESiteSettingsActionTypes.SiteSettingsSetIsHappyWithCookies;
+  constructor(public payload: { isHappyWithCookies: boolean }) {}
 }
 
 export class SiteSettingsLoadAllFromLocalStorage implements Action {
@@ -47,4 +53,5 @@ export type SiteSettingsActions =
   | SiteSettingsSetSiteTheme
   | SiteSettingsSetIsPageAnimated
   | SiteSettingsSetIsAutoNightMode
+  | SiteSettingsSetIsHappyWithCookies
   | SiteSettingsLoadAllFromLocalStorage;

@@ -5,7 +5,9 @@ import { IObjectNameMatchResult } from '@client/app/models/object-name-match-res
 // import { ROOT_URL } from '@client/app/utils/root-url';
 import { map } from 'rxjs/operators';
 
-const ROOT_URL = 'https://musforti.astro.umd.edu/catch-sandbox/';
+// const ROOT_URL = 'https://musforti.astro.umd.edu/catch-sandbox/';
+// const ROOT_URL = 'https://catch.astro.umd.edu/catch-sandbox/';
+const ROOT_URL = 'https://catch.astro.umd.edu/catch-stage/';
 
 @Injectable({
   providedIn: 'root'

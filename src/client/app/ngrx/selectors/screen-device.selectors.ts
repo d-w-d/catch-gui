@@ -13,3 +13,11 @@ export const selectScreenDeviceSubstate = createSelector(
   (state: AppState) => state.screenDevice,
   (substate: IScreenDeviceSubstate) => substate
 );
+
+export const selectScreenDeviceEffectiveDevice = createSelector(
+  (state: AppState) => state.screenDevice,
+  (substate: IScreenDeviceSubstate) => {
+    if (substate.layout === 'auto') return substate.device;
+    return substate.layout;
+  }
+);

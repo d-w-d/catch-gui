@@ -12,6 +12,7 @@ export interface INeatObjectQueryResult {
   instrument: string;
   jd: number;
   phase: number;
+  preview_url: string;
   productid: string;
   ra: number;
   raDec?: string;

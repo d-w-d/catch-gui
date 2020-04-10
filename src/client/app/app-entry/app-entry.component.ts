@@ -21,6 +21,8 @@ import {
   toHomePageAnimationDelayMs,
   pageFadeInDurationMs
 } from '../../app/utils/animation-constants';
+import { concatMap } from 'rxjs/operators';
+import { timer, of } from 'rxjs';
 
 @Component({
   selector: 'app-entry-root',
@@ -39,6 +41,7 @@ export class AppEntryComponent {
   isRoutedPageHidden = true;
   isReadyForAnimation = false;
   neatQueryStatus: INeatObjectQueryStatus;
+  neatQueryStatusMessage: string = 'XXXXX';
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -107,15 +110,25 @@ export class AppEntryComponent {
       setTimeout(() => (this.isRoutedPageHidden = false), delayTimeMs);
     });
 
-    this.store.select(selectNeatObjectQueryStatus).subscribe(status => {
-      this.neatQueryStatus = status;
-      if (!!status && status.code === 'notfound') {
-        // Inform user that there's a problem
-        this.snackBar.open('No data found for ' + status.objid, 'Close', {
-          duration: 5000
-        });
-      }
-    });
+    // this.store.select(selectNeatObjectQueryStatus).subscribe(status => {
+    //   if (!!status && !!status.message) this.neatQueryStatusMessage = status.message;
+    //   if (!!status) this.neatQueryStatus = { ...status };
+    //   // console.log('status', status);
+    // });
+
+    const temp$ = this.store.select(selectNeatObjectQueryStatus);
+
+    temp$
+      .pipe(
+        concatMap(_ => {
+          return timer(1000).pipe(__ => of(_));
+        })
+      )
+      .subscribe(status => {
+        if (!!status && !!status.message) this.neatQueryStatusMessage = status.message;
+        if (!!status) this.neatQueryStatus = { ...status };
+        // console.log('status', status);
+      });
 
     // Initialize app
     this.isAppLoaded = true;
@@ -132,5 +145,11 @@ export class AppEntryComponent {
   getPageAnimateStyle() {
     if (this.isRoutedPageHidden) return {};
     return { animation: `pageFadeIn ${pageFadeInDurationMs}ms ease-in-out 0ms 1 normal forwards` };
+  }
+
+  getSearchMessage(neatQueryStatus: any) {
+    const result = ('' + neatQueryStatus.objid + ': ' + neatQueryStatus.message).replace('.', '');
+    // console.log('!!!result', neatQueryStatus, result);
+    return result;
   }
 }
