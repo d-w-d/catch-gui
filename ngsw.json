@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1584022861682,
+  "timestamp": 1586988018869,
   "index": "/catch-gui/index.html",
   "assetGroups": [
     {
@@ -8,20 +8,20 @@
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "urls": [
-        "/catch-gui/6-es2015.f72a96b69169a3b131a6.js",
-        "/catch-gui/6-es5.f72a96b69169a3b131a6.js",
+        "/catch-gui/6-es2015.1ae55d20f244129696e5.js",
+        "/catch-gui/6-es5.1ae55d20f244129696e5.js",
         "/catch-gui/favicon.ico",
         "/catch-gui/index.html",
-        "/catch-gui/main-es2015.eb6dac6d4fb79119ebbb.js",
-        "/catch-gui/main-es5.eb6dac6d4fb79119ebbb.js",
+        "/catch-gui/main-es2015.f203acff757c7418254d.js",
+        "/catch-gui/main-es5.f203acff757c7418254d.js",
         "/catch-gui/polyfills-es2015.4bddb4463562b41a144d.js",
         "/catch-gui/polyfills-es5.0e5056b7fba48eb2cc01.js",
-        "/catch-gui/runtime-es2015.4f43f82e0896e5934919.js",
-        "/catch-gui/runtime-es5.4f43f82e0896e5934919.js",
+        "/catch-gui/runtime-es2015.819ff9ce5df87b54a7a5.js",
+        "/catch-gui/runtime-es5.819ff9ce5df87b54a7a5.js",
         "/catch-gui/scripts.3c14db7f73ae4343b0aa.js",
-        "/catch-gui/styles.82e4e9ee0bce0f553ab5.css",
-        "/catch-gui/vendor-es2015.588c8037f47f1186f7a3.js",
-        "/catch-gui/vendor-es5.588c8037f47f1186f7a3.js"
+        "/catch-gui/styles.9a4080ea507bf3e9a23c.css",
+        "/catch-gui/vendor-es2015.b5f2b3759037ac0ef009.js",
+        "/catch-gui/vendor-es5.b5f2b3759037ac0ef009.js"
       ],
       "patterns": []
     },
@@ -69,7 +69,12 @@
         "/catch-gui/assets/images/pngs/sbn_logo2_v0.png",
         "/catch-gui/assets/images/pngs/sbn_logo3_v0.png",
         "/catch-gui/assets/images/pngs/sbn_logo4_v0.png",
+        "/catch-gui/assets/images/pngs/sbn_logo5_v0.png",
         "/catch-gui/assets/images/pngs/sbn_logo_v0.png",
+        "/catch-gui/assets/images/pngs/stars.png",
+        "/catch-gui/assets/images/pngs/stars_v2.png",
+        "/catch-gui/assets/images/pngs/stars_v3.png",
+        "/catch-gui/assets/images/pngs/stars_v4.png",
         "/catch-gui/assets/images/svgs/README.md",
         "/catch-gui/assets/js9-served/astroemw.js",
         "/catch-gui/assets/js9-served/astroemw.wasm",
@@ -260,7 +265,8 @@
         "/catch-gui/assets/videos/webms/cometz6.webm",
         "/catch-gui/assets/videos/webms/cometz7.webm",
         "/catch-gui/dark_sky_v0.90d11ab757a7ee299b2f.jpg",
-        "/catch-gui/light_sky_v0.9b6e6fac6fb22f844295.jpg"
+        "/catch-gui/light_sky_v0.9b6e6fac6fb22f844295.jpg",
+        "/catch-gui/stars_v4.fd6b19ce99ce69488761.png"
       ],
       "patterns": []
     }
@@ -279,8 +285,8 @@
     }
   ],
   "hashTable": {
-    "/catch-gui/6-es2015.f72a96b69169a3b131a6.js": "290f21300e23d4b585c49cc400015a8a9b4c865f",
-    "/catch-gui/6-es5.f72a96b69169a3b131a6.js": "7308a502f8884d5b5a1170cdee2fc3a963c1fc35",
+    "/catch-gui/6-es2015.1ae55d20f244129696e5.js": "f15461f36a2e133470d172f65d39899b1aeaa536",
+    "/catch-gui/6-es5.1ae55d20f244129696e5.js": "d1842f7e8fd0b6dce75f386680b93d1a7c645241",
     "/catch-gui/assets/icons/README.md": "d1f6de2572c7d7d8d7132a701973f9eb607ef886",
     "/catch-gui/assets/icons/logo0.png": "3d68a5472e832f4531f971de3fde3d3561d45581",
     "/catch-gui/assets/icons/logo0b.png": "f8b9ed58da790ea9e0f0a47ee37f4d76775c11bd",
@@ -320,7 +326,12 @@
     "/catch-gui/assets/images/pngs/sbn_logo2_v0.png": "1ca602fc8ee6472f861f4b27316e67369c374d4b",
     "/catch-gui/assets/images/pngs/sbn_logo3_v0.png": "38420ff65bcc02594b3e825980ca2c4d4dbd951b",
     "/catch-gui/assets/images/pngs/sbn_logo4_v0.png": "52301439b389e099bf08163ca66b45e3f48d3530",
+    "/catch-gui/assets/images/pngs/sbn_logo5_v0.png": "1f67be82ccd672c0d6eedfa8eea5e78faab2e310",
     "/catch-gui/assets/images/pngs/sbn_logo_v0.png": "acf92bab7e0b8dbe02daeeac6f8d68ad8575c1d6",
+    "/catch-gui/assets/images/pngs/stars.png": "f09787c1b859141f045b8d9c11ff635f5d0a0311",
+    "/catch-gui/assets/images/pngs/stars_v2.png": "7986fe0e8d83bb2b48f88df2e5827d542bb2b50d",
+    "/catch-gui/assets/images/pngs/stars_v3.png": "23f3ffa893dd7e98e45151545c418f8064d66388",
+    "/catch-gui/assets/images/pngs/stars_v4.png": "36ec2ed729276d5ec9e25d21a2d4b96e2ffe372d",
     "/catch-gui/assets/images/svgs/README.md": "6b076ca791c43b5e5d87242983380ec66630f8b8",
     "/catch-gui/assets/js9-served/astroemw.js": "1feecc3d61aa4486ec281b985ec86d5bf124fcfd",
     "/catch-gui/assets/js9-served/astroemw.wasm": "5aa71dd675dfd903bfa5f3e865788bcb7999dcd4",
@@ -512,18 +523,19 @@
     "/catch-gui/assets/videos/webms/cometz7.webm": "92e5bda6c4439d0d4c06c8f34d154eb92edbe205",
     "/catch-gui/dark_sky_v0.90d11ab757a7ee299b2f.jpg": "1b68344e7383946bf73c4f148681abe25d01ed23",
     "/catch-gui/favicon.ico": "7012a262bcf1c518b876ee78c2d78e5dae3a557a",
-    "/catch-gui/index.html": "b03b4b706dbd5381be50fb419b5daec52430df99",
+    "/catch-gui/index.html": "3c94c14bec18c754c43d34b6bccbe258014fc18e",
     "/catch-gui/light_sky_v0.9b6e6fac6fb22f844295.jpg": "8ac0862a2b8fe3747269cd09744366b25d131113",
-    "/catch-gui/main-es2015.eb6dac6d4fb79119ebbb.js": "9add1dba949a1a8bb788bcc31bed2aa026f35d95",
-    "/catch-gui/main-es5.eb6dac6d4fb79119ebbb.js": "ba55402c41c6d404874283edd66340941f5b9ab5",
+    "/catch-gui/main-es2015.f203acff757c7418254d.js": "8869ab75fb056b56fff987c27a3100a93ec82b1f",
+    "/catch-gui/main-es5.f203acff757c7418254d.js": "3dbad85f745b87200b5b1a372027f5ba69c64d44",
     "/catch-gui/polyfills-es2015.4bddb4463562b41a144d.js": "264e8d18de3e73db3fd7e5eeba5ef16059fe4e82",
     "/catch-gui/polyfills-es5.0e5056b7fba48eb2cc01.js": "ddfdce4fb3d2c319c920d3b7640789add9dbdbeb",
-    "/catch-gui/runtime-es2015.4f43f82e0896e5934919.js": "9c240f35881dcd024a9ec6cb4c80e4d8730652d4",
-    "/catch-gui/runtime-es5.4f43f82e0896e5934919.js": "34f790cb102eb955a5b9aecc5b6fa7ff291ed4f9",
+    "/catch-gui/runtime-es2015.819ff9ce5df87b54a7a5.js": "bc5be509e4e0f4f70b2fbbac8ca3d62ed4ef76c5",
+    "/catch-gui/runtime-es5.819ff9ce5df87b54a7a5.js": "b9424b9a62efb6cb833fcc457727ad5bafe8ec4e",
     "/catch-gui/scripts.3c14db7f73ae4343b0aa.js": "9e94e0ad90cd303994052e1304bc7ce30afb86e7",
-    "/catch-gui/styles.82e4e9ee0bce0f553ab5.css": "7b2c439154247dc7997f383f89cc06208f1077d4",
-    "/catch-gui/vendor-es2015.588c8037f47f1186f7a3.js": "5cdf605cfbdce23eddb42be40d4086d4cde716e3",
-    "/catch-gui/vendor-es5.588c8037f47f1186f7a3.js": "59e65448bdd02a3a317a673f0917e4eb2b910da5"
+    "/catch-gui/stars_v4.fd6b19ce99ce69488761.png": "36ec2ed729276d5ec9e25d21a2d4b96e2ffe372d",
+    "/catch-gui/styles.9a4080ea507bf3e9a23c.css": "87b0bbe5782cf14eb11d308d7022c7e955acbd81",
+    "/catch-gui/vendor-es2015.b5f2b3759037ac0ef009.js": "8cbf506e8cd91ee99831cceae6a91b146af31b9c",
+    "/catch-gui/vendor-es5.b5f2b3759037ac0ef009.js": "c61f649639148dc35140d88b568de8b0fd0977dc"
   },
   "navigationUrls": [
     {
