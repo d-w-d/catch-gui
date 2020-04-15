@@ -1,0 +1,22 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+
+  #canvas-container {
+    background-color: rgb(18, 17, 26);
+    width: 100%;
+    height: 100%;
+    // background-image: url('../images/stars.png');
+    canvas {
+      // background-color: rgb(18, 17, 26);
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

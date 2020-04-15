@@ -1,7 +1,7 @@
 import { Component, HostBinding, OnInit, AfterViewInit } from '@angular/core';
 import { AppState } from '../../ngrx/reducers';
-// import './starry-sky.js';
 const startStars = require('./starry-sky.js');
+import { CometAnimation } from './comet-animations';
 
 import { Store } from '@ngrx/store';
 import { selectSiteSettingsEffectiveTheme } from '@client/app/ngrx/selectors/site-settings.selectors';
@@ -12,6 +12,7 @@ import {
   backgroundSwipeDurationMs as durationMs
 } from '@client/app/utils/animation-constants';
 import { selectNavigationRecords } from '@client/app/ngrx/selectors/navigation.selectors';
+// import {} from '../../utils/constants'
 
 @Component({
   selector: 'app-background-graphic',
@@ -52,7 +53,12 @@ export class BackgroundGraphicComponent implements OnInit, AfterViewInit {
       this.isBackgroundShown = ['/', '/home'].includes(navRecords.presentRoute);
       this.varHostClassName = 'host-' + this.siteTheme.toLowerCase();
 
-      setTimeout(() => startStars(), 300);
+      // setTimeout(() => startStars(), 300);
+      if (!!this.isBackgroundShown) setTimeout(() => CometAnimation.start(), 0);
+      if (!this.isBackgroundShown)
+        setTimeout(() => {
+          if (!this.isBackgroundShown) CometAnimation.stop();
+        }, 1500);
     });
 
     //
@@ -69,7 +75,10 @@ export class BackgroundGraphicComponent implements OnInit, AfterViewInit {
     const vidEl = document.getElementById(this.videoId);
     if (!!vidEl) (vidEl as HTMLVideoElement).playbackRate = 0.4;
 
-    setTimeout(() => startStars(), 300);
+    // setTimeout(() => startStars(), 300);
+    // setTimeout(() => CometAnimation.start(), 500);
+
+    // setTimeout(() => CometAnimation.stop(), 0);
   }
 
   backgroundImageClassLogic() {

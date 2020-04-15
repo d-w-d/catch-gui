@@ -5,8 +5,9 @@
 </div>
 
 <div
-  *ngIf="isBackgroundShown"
+  *ngIf="true || isBackgroundShown"
   class="stars-wrapper"
+  id="canvas-container"
   [ngClass]="isBackgroundShown ? '' : 'fade-out'"
 >
   <!-- <canvas id="bgCanvas"></canvas> -->
