@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectorRef, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -21,8 +21,9 @@ import {
   toHomePageAnimationDelayMs,
   pageFadeInDurationMs
 } from '../../app/utils/animation-constants';
-import { concatMap } from 'rxjs/operators';
-import { timer, of } from 'rxjs';
+import { concatMap, map, distinctUntilChanged, withLatestFrom } from 'rxjs/operators';
+import { timer, of, interval, zip } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-entry-root',
@@ -41,12 +42,13 @@ export class AppEntryComponent {
   isRoutedPageHidden = true;
   isReadyForAnimation = false;
   neatQueryStatus: INeatObjectQueryStatus;
-  neatQueryStatusMessage: string = 'XXXXX';
 
   constructor(
     private localStorageService: LocalStorageService,
     private store: Store<AppState>,
-    private snackBar: MatSnackBar
+    private router: Router,
+    private ref: ChangeDetectorRef,
+    private ngZone: NgZone
   ) {
     this._onSiteLoad();
   }
@@ -110,24 +112,44 @@ export class AppEntryComponent {
       setTimeout(() => (this.isRoutedPageHidden = false), delayTimeMs);
     });
 
-    // this.store.select(selectNeatObjectQueryStatus).subscribe(status => {
-    //   if (!!status && !!status.message) this.neatQueryStatusMessage = status.message;
-    //   if (!!status) this.neatQueryStatus = { ...status };
-    //   // console.log('status', status);
-    // });
-
-    const temp$ = this.store.select(selectNeatObjectQueryStatus);
-
-    temp$
+    // Logic to react to messages received from server
+    this.store
+      .select(selectNeatObjectQueryStatus)
       .pipe(
-        concatMap(_ => {
-          return timer(1000).pipe(__ => of(_));
+        /**
+         * This logic controls the minimal time that has to transpire before the next
+         * event will be emitted; see: https://stackoverflow.com/a/50322466/8620332
+         */
+        concatMap(status => {
+          if (!status || !status.message) return of(status);
+          // Delay longer the message that comes BEFORE '...Generating cutouts...'
+          return timer(status.message.includes('Generating cutouts') ? 2000 : 500).pipe(
+            concatMap(_ => of(status))
+          );
         })
       )
       .subscribe(status => {
-        if (!!status && !!status.message) this.neatQueryStatusMessage = status.message;
-        if (!!status) this.neatQueryStatus = { ...status };
-        // console.log('status', status);
+        setTimeout(() => {
+          // Update component properties
+          if (!!status) this.neatQueryStatus = { ...status };
+
+          // ng was struggling to detect property changes here,
+          // so we'll force it to check for changes
+          this.ref.detectChanges();
+
+          // Once "found", trigger navigation to neat-view page
+          if (!!status && status.code === 'found') {
+            setTimeout(() => {
+              // Routing here has to be carried out within ngZone
+              // See: https://stackoverflow.com/a/55087372/8620332
+              this.ngZone.run(() => {
+                this.router.navigate(['neat'], {
+                  queryParams: { objid: status.objid }
+                });
+              });
+            }, 500);
+          }
+        }, 0);
       });
 
     // Initialize app

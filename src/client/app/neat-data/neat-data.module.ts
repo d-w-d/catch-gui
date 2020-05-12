@@ -13,7 +13,10 @@ import { NeatDataTitleComponent } from './neat-data-title/neat-data-title.compon
 import { NeatDataMainImageComponent } from './neat-data-main-image/neat-data-main-image.component';
 import { NeatDataImageWheelComponent } from './neat-data-image-wheel/neat-data-image-wheel.component';
 import { NeatDataCheckboxesComponent } from './neat-data-checkboxes/neat-data-checkboxes.component';
-import { NeatDataTableComponent } from './neat-data-table/neat-data-table.component';
+import {
+  NeatDataTableComponent,
+  NeatDataTableWrapperComponent
+} from './neat-data-table/neat-data-table.component';
 import { NeatDataPlotlyGraphDialogComponent } from './neat-data-plotly-graph/neat-data-plotly-graph.dialog-component';
 import { NeatDataPlotlyGraphComponent } from './neat-data-plotly-graph/neat-data-plotly-graph.component';
 import { FitsGraphicComponent } from '../components/fits-graphic/fits-graphic.component';
@@ -35,6 +38,9 @@ export const LAZY_ROUTES: Routes = [
     NeatDataImageWheelComponent,
     NeatDataCheckboxesComponent,
     NeatDataTableComponent,
+    //
+    NeatDataTableWrapperComponent,
+    //
     FitsGraphicComponent
   ],
   imports: [

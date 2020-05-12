@@ -126,14 +126,15 @@ export class NeatDataPlotlyGraphComponent implements OnInit, OnChanges {
             // LABELLING
             title: effectivePlotTitle,
             titlefont: {
-              size: 24,
+              size: 18,
               color: fontColor
             },
 
             // PLOT SIZING
             width: !!isMiniMode ? 30 : size.width,
             height: !!isMiniMode ? 30 : size.height,
-            margin: !!isMiniMode ? { l: 0, r: 0, b: 0, t: 0 } : undefined,
+            // margin: !!isMiniMode ? { l: 0, r: 0, b: 0, t: 0 } : undefined,
+            margin: !!isMiniMode ? { l: 0, r: 0, b: 0, t: 0 } : { l: 50, r: 25, b: 50, t: 100 },
 
             // PLOT BACKGROUND COLOR
             plot_bgcolor: bgColor,
@@ -147,7 +148,8 @@ export class NeatDataPlotlyGraphComponent implements OnInit, OnChanges {
                 size: 18,
                 color: fontColor
               },
-              autorange: true, // type === 'scatter',
+              autorange: 'reversed',
+              // type === 'scatter',
               // range: !!xData ? [0, Math.ceil(Math.max.apply(null, xData))] : [0, 10],
               showgrid: !isMiniMode,
               gridcolor: gridColor,
@@ -210,7 +212,7 @@ export class NeatDataPlotlyGraphComponent implements OnInit, OnChanges {
    * Some sh***y code golf to insert <br> into text for crude plotly wrapping
    * E.g. "Heliocentric     Distance (au)" => "Heliocentric <br> Distance (au)"
    */
-  breakUpText(input: string, br = '<br>', lineMax = 10) {
+  breakUpText(input: string, br = '<br>', lineMax = 20) {
     const res = input
       .split(/\s+/)
       .reduce((acc, el) => {
@@ -229,9 +231,9 @@ export class NeatDataPlotlyGraphComponent implements OnInit, OnChanges {
    */
   getPlotSize(): { width: number; height: number } {
     const isWide = window.innerWidth > window.innerHeight;
-    const maxSide = 500;
+    const maxSide = 800;
     const side =
-      0.7 *
+      0.65 *
       (isWide
         ? window.innerHeight < maxSide
           ? window.innerHeight
@@ -240,6 +242,7 @@ export class NeatDataPlotlyGraphComponent implements OnInit, OnChanges {
         ? window.innerWidth
         : maxSide);
 
-    return { width: side, height: side };
+    // return { width: side, height: side };
+    return { width: 0.65 * window.innerWidth, height: window.innerHeight * 0.65 };
   }
 }

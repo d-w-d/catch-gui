@@ -1,6 +1,6 @@
 @import '../../styles/styles-variables';
 
-@keyframes xxx {
+@keyframes fadein {
   0% {
     opacity: 0;
   }
@@ -23,7 +23,7 @@
     justify-content: center;
     align-items: center;
     opacity: 0;
-    animation: xxx 200ms ease-in-out 0s forwards;
+    animation: fadein 200ms ease-in-out 0s forwards;
 
     .messenger {
       color: white;

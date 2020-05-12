@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { INeatObjectQueryResult } from '@client/app/models/neat-object-query-result.model';
+import { TQueryNeatObject } from './neat-object-query.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,11 @@ export class NeatObjectQueryMockService {
   /**
    * Ping initial route to determine if data for object is cached or queued
    */
-  queryNeatObject(objid: string, isRefreshed?: boolean): Observable<INeatObjectQueryResult[]> {
-    return of(mockResults.filter((el, ind) => ind < 300));
+  queryNeatObject(objid: string, isRefreshed?: boolean): Observable<TQueryNeatObject> {
+    return of({
+      status: 'success',
+      results: mockResults.filter((el, ind) => ind < 300)
+    });
   }
 
   getNeatResultLabels() {

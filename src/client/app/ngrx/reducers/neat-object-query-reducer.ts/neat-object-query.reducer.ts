@@ -41,7 +41,6 @@ export function NeatObjectQueryReducer(
       };
 
     case ENeatObjectQueryActionTypes.NeatObjectQuerySetColumnState:
-      console.log('action.payload.newColState', action.payload.newColState);
       return {
         ...state,
         neatObjectQueryColumnState: { ...action.payload.newColState }

@@ -1,37 +1,41 @@
 <div
-  #checkboxesContainer
-  class="checkboxes-container"
+  class="checkboxes-container2"
   *ngIf="!!allColNames && !!labels && !!colState && latestData$ | async as data"
-  [ngClass]="{
-    'checkboxes-container-x2-col': data.width > 300,
-    'checkboxes-container-x3-col': data.width > 450,
-    'checkboxes-container-x4-col': data.width > 600,
-    'checkboxes-container-x5-col': data.width > 750
-  }"
 >
-  <div class="button-wrapper" *ngFor="let colName of allColNames">
-    <button mat-icon-button [matTooltip]="labels[colName] ? labels[colName].description : ''">
-      <mat-icon>info</mat-icon>
-    </button>
-    <mat-checkbox
-      color="accent"
-      class="example-margin"
-      [checked]="colState[colName]"
-      (change)="updateColState($event, colName)"
-      >{{ colName }}</mat-checkbox
-    >
+  <div
+    #checkboxesContainer
+    class="checkboxes-container"
+    [ngClass]="{
+      'checkboxes-container-x2-col': data.width > 300,
+      'checkboxes-container-x3-col': data.width > 450,
+      'checkboxes-container-x4-col': data.width > 600,
+      'checkboxes-container-x5-col': data.width > 750
+    }"
+  >
+    <div class="button-wrapper" *ngFor="let colName of allColNames">
+      <button mat-icon-button [matTooltip]="labels[colName] ? labels[colName].description : ''">
+        <mat-icon>info</mat-icon>
+      </button>
+      <mat-checkbox
+        color="accent"
+        class="example-margin"
+        [checked]="colState[colName]"
+        (change)="updateColState($event, colName)"
+        >{{ colName }}</mat-checkbox
+      >
+    </div>
   </div>
-</div>
 
-<div class="utility-buttons-wrapper">
-  <div class="utility-button">
-    <button mat-raised-button color="accent" (click)="selectAll()">
-      SELECT ALL
-    </button>
-  </div>
-  <div class="utility-button">
-    <button mat-raised-button color="accent" (click)="resetAll()">
-      RESET
-    </button>
+  <div class="utility-buttons-wrapper">
+    <div class="utility-button">
+      <button mat-raised-button color="accent" (click)="selectAll()">
+        SELECT ALL
+      </button>
+    </div>
+    <div class="utility-button">
+      <button mat-raised-button color="accent" (click)="resetAll()">
+        RESET
+      </button>
+    </div>
   </div>
 </div>

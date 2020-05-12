@@ -33,7 +33,31 @@ export class NeatObjectQueryEffects {
       const { objectName, isRefreshed } = action.payload;
 
       return this.neatObjectQueryer.queryNeatObject(objectName, isRefreshed).pipe(
-        switchMap(neatObjectQueryResults => {
+        switchMap(neatQueryObject => {
+          // Handle error
+          if (neatQueryObject.status === 'error') {
+            setTimeout(() => this.router.navigate([''], {}), 50);
+            this.snackBar.open(
+              `Error occurred for ${objectName}. This may be because you're searching for a comet that has an asteroidal
+            designation. We're working to fix that!`,
+              'Close',
+              {
+                duration: 15000
+              }
+            );
+            return concat(
+              of(
+                new NeatObjectQuerySetStatus({
+                  objid: action.payload.objectName,
+                  code: 'notfound'
+                })
+              )
+            );
+          }
+
+          // Continue without errors
+          const neatObjectQueryResults = neatQueryObject.results;
+
           // Combine ra and dec
           neatObjectQueryResults.forEach((el, ind) => {
             neatObjectQueryResults[ind] = { ...el, raDec: el.ra + ' / ' + el.dec };
@@ -43,13 +67,13 @@ export class NeatObjectQueryEffects {
 
           // After results received we trigger change of route
           if (!!isObjectFound) {
-            setTimeout(
-              () =>
-                this.router.navigate(['neat'], {
-                  queryParams: { objid: action.payload.objectName }
-                }),
-              50
-            );
+            // setTimeout(
+            //   () =>
+            //     this.router.navigate(['neat'], {
+            //       queryParams: { objid: action.payload.objectName }
+            //     }),
+            //   50
+            // );
           } else {
             setTimeout(() => this.router.navigate([''], {}), 50);
             this.snackBar.open(`Search did not yield data for ${objectName}`, 'Close', {

@@ -104,13 +104,13 @@
     // background-color: pink;
     // Params
     $nRows: 3;
-    $nCols: 4;
+    $nCols: 3;
     $gap-size: 10px;
 
     // Grid stuff
     display: grid;
     grid-template-rows: 0.1fr 1fr auto;
-    grid-template-columns: 50fr 1fr 1fr 50fr;
+    grid-template-columns: 50fr 1fr 50fr;
     gap: $gap-size $gap-size;
 
     .title-space {
@@ -123,10 +123,10 @@
       // max-height: 90vw;
       min-width: 300px;
       grid-row: 2 / 3;
-      grid-column: 3 / 4;
+      grid-column: 2 / #{$nCols};
     }
 
-    .checkboxes-space {
+    .checkboxes-spaceX {
       height: 100%;
       grid-row: 2 / 3;
       grid-column: 2 / 3;
@@ -164,13 +164,13 @@
 
     // Params
     $nRows: 2;
-    $nCols: 5;
+    $nCols: 4;
     $gap-size: 10px;
 
     // Grid stuff
     display: grid;
     grid-template-rows: 0.1fr minmax(0px, 1fr);
-    grid-template-columns: 50fr 1fr 1fr 1fr 50fr;
+    grid-template-columns: 50fr 1fr 1fr 50fr;
     gap: $gap-size $gap-size;
 
     .title-space {
@@ -179,7 +179,14 @@
     }
 
     .table-space {
-      min-width: 350px;
+      min-width: 200px;
+      width: 40vw;
+      max-width: 100vw;
+
+      min-height: 200px;
+      height: 80vh;
+      max-height: 100vh;
+      height: auto;
       grid-row: 2 / 3;
       grid-column: 2 / 3;
       overflow-x: hidden;
@@ -205,7 +212,7 @@
       }
     }
 
-    .checkboxes-space {
+    .checkboxes-spaceX {
       height: 100%;
       grid-row: 2 / 3;
       grid-column: 3 / 4;
@@ -231,12 +238,16 @@
     }
 
     .main-image-wheel-space {
-      min-width: 300px;
-      width: 100px;
+      min-width: 200px;
+      width: 40vw;
+      max-width: 80vw;
+
+      min-height: 200px;
+      height: 75vh;
+      max-height: 80vh;
+
       grid-row: 2 / 3;
-      grid-column: 4 / 5;
-      max-height: 90vw;
-      height: 500px;
+      grid-column: 3 / #{$nCols};
     }
   }
 }

@@ -26,6 +26,7 @@ import { NeatDataPlotlyGraphDialogComponent } from '../neat-data-plotly-graph/ne
 import { NeatObjectQuerySetSelectedResultIndex } from '@client/app/ngrx/actions/neat-object-query.actions';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { NeatDataCheckboxesComponent } from '../neat-data-checkboxes/neat-data-checkboxes.component';
 
 @Component({
   selector: 'app-neat-data-table',
@@ -197,4 +198,20 @@ export class NeatDataTableComponent implements OnInit, OnDestroy {
   selectRow(index: number) {
     this.store.dispatch(new NeatObjectQuerySetSelectedResultIndex({ index }));
   }
+
+  openSettingsDialog(e: MouseEvent) {
+    e.stopPropagation();
+    console.log('????');
+    this.dialog.open<NeatDataTableWrapperComponent>(NeatDataTableWrapperComponent);
+  }
 }
+
+@Component({
+  selector: 'app-neat-data-checkboxes-wrapper',
+  template: `
+    <div style="width: 500px; max-width: 60vw; height: 500px;">
+      <app-neat-data-checkboxes></app-neat-data-checkboxes>
+    </div>
+  `
+})
+export class NeatDataTableWrapperComponent {}

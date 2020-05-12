@@ -39,6 +39,7 @@ export class NeatDataTitleComponent implements OnInit {
       .subscribe(_ => {
         this.toggleValue = _.layout;
         this.device = _.device;
+        if (this.device === 'tablet') this.device = 'desktop';
       });
 
     this.latestData$ = combineLatest([

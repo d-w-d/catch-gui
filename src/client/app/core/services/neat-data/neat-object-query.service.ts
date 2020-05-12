@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 // import { ROOT_URL } from '@app/utils/root-url';
-import { Observable, from } from 'rxjs';
-import { map, delay, switchMap } from 'rxjs/operators';
+import { Observable, from, of } from 'rxjs';
+import { map, delay, switchMap, catchError } from 'rxjs/operators';
 import { INeatObjectQueryResult } from '@client/app/models/neat-object-query-result.model';
 import { INeatObjectQueryResultLabels } from '@client/app/models/neat-object-query-result-labels.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,6 +17,10 @@ interface ICatchObjidProbe {
   results: string;
   queued: boolean;
 }
+
+export type TQueryNeatObject =
+  | { status: 'error'; message: string }
+  | { results: INeatObjectQueryResult[]; status: 'success' };
 
 // export const ROOT_URL = 'https://musforti.astro.umd.edu/catch/';
 export const ROOT_URL = 'https://catch.astro.umd.edu/catch-stage/';
@@ -35,18 +39,19 @@ export class NeatObjectQueryService {
    * Runs sequence of API calls to (i) check for cached data or trigger big query,
    * and (ii) retrieve data
    */
-  queryNeatObject(objid: string, isRefreshed?: boolean): Observable<INeatObjectQueryResult[]> {
+  queryNeatObject(objid: string, isCached?: boolean): Observable<TQueryNeatObject> {
     //
-    isRefreshed = false;
+    // Don't allow user to re-compute queries from UI
+    isCached = true;
 
-    const url = ROOT_URL + `query/moving?target=${objid}${isRefreshed ? '&cached=false' : ''}`;
+    const url = ROOT_URL + `query/moving?target=${objid}${isCached ? '' : '&cached=false'}`;
     // console.log('url', url);
 
     return this.httpClient.get<ICatchObjidProbe>(url).pipe(
       map((data: ICatchObjidProbe) => {
         return data;
       }),
-      delay(isRefreshed ? 1 * 1000 : 1000),
+      // delay(isCached ? 1 * 1000 : 0),
       switchMap(data => {
         // If we did not just trigger a queued query then we can grab results immediately
         if (!data.queued) {
@@ -55,12 +60,13 @@ export class NeatObjectQueryService {
           return this.httpClient
             .get<{ count: number; job_id: string; data: INeatObjectQueryResult[] }>(url2)
             .pipe(
-              map(response => {
-                return response.data;
-              })
+              map(
+                (response): TQueryNeatObject => {
+                  return { results: response.data, status: 'success' };
+                }
+              )
             );
         }
-
         // Else, listen to SSE stream and then grab data
         return from(this.watchJobStream(data.job_id)).pipe(
           switchMap(job_id => {
@@ -68,12 +74,27 @@ export class NeatObjectQueryService {
             return this.httpClient
               .get<{ count: number; job_id: string; data: INeatObjectQueryResult[] }>(url3)
               .pipe(
-                map(response => {
-                  // console.log('response.data', response.data);
-                  return response.data;
-                })
+                map(
+                  (response): TQueryNeatObject => {
+                    // console.log('response.data', response.data);
+                    // return response.data;
+                    return {
+                      results: response.data,
+                      status: 'success'
+                    };
+                  }
+                )
               );
-          })
+          }),
+          catchError(
+            (_): Observable<TQueryNeatObject> => {
+              // Provide info to carry on for now
+              return of({
+                status: 'error',
+                message: 'Unused message at this point'
+              });
+            }
+          )
         );
       })
     );
@@ -96,6 +117,10 @@ export class NeatObjectQueryService {
           if (data.status === 'success') {
             this.close(); // Sever connection to SSE route
             resolve(jobId);
+          }
+          if (data.status === 'error') {
+            this.close();
+            reject();
           }
         } catch (e) {
           console.log('e message', e.message);

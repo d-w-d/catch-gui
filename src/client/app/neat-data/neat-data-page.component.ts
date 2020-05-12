@@ -38,7 +38,7 @@ export class NeatDataPageComponent implements OnInit, OnDestroy {
   subscriptions = new Subscription();
   objid: string;
   isUiDrawn = false;
-  selectedLayout = 'mobile';
+  // selectedLayout = 'mobile';
   triSize = 20;
   theme$: Observable<TPermittedTheme>;
   latestData$: Observable<ILatestData>;
@@ -130,6 +130,7 @@ export class NeatDataPageComponent implements OnInit, OnDestroy {
   }
 
   getLayoutClass(effectiveDevice: TDevices) {
+    if (effectiveDevice === 'tablet') effectiveDevice = 'desktop';
     const layoutClass = effectiveDevice + '-layout';
     // console.log('layoutClass', layoutClass);
     return layoutClass;

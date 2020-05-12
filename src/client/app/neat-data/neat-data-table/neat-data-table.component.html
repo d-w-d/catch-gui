@@ -8,7 +8,20 @@
         class="first-thumbnail-column                                "
         [matColumnDef]="'thumbnail_url'"
       >
-        <th mat-header-cell class="table-header-cell" *matHeaderCellDef mat-sort-header></th>
+        <!-- <th mat-header-cell class="table-header-cell" *matHeaderCellDef mat-sort-header>
+          <button mat-button>
+            <mat-icon matTooltip="Choose table columns">
+              view_column
+            </mat-icon>
+          </button>
+        </th> -->
+        <th mat-cell class="table-header-cell" *matHeaderCellDef>
+          <button mat-button (click)="openSettingsDialog($event)">
+            <mat-icon matTooltip="Choose table columns">
+              settings
+            </mat-icon>
+          </button>
+        </th>
         <td
           mat-cell
           class="table-body-cell thumbnail-cell"

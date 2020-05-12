@@ -2,7 +2,7 @@
   <div
     class="loading-overlay"
     [ngStyle]="{
-      display: neatQueryStatus && neatQueryStatus.code === 'searching' ? 'flex' : 'none'
+      display: !!neatQueryStatus && neatQueryStatus.code === 'searching' ? 'flex' : 'none'
     }"
   >
     <div class="messenger" *ngIf="!!neatQueryStatus && !!neatQueryStatus.message">

@@ -48,7 +48,7 @@ import { ObjectNameMatchMockService } from './core/services/object-name-match/ob
 import { TermsComponent } from './components/terms/terms.component';
 import { ApisPageComponent } from './components/apis-page/apis-page.component';
 
-const isMockDataUsed = !true;
+const isMockDataUsed = true;
 @NgModule({
   declarations: [
     AboutPageComponent,

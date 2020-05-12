@@ -53,12 +53,14 @@ export class BackgroundGraphicComponent implements OnInit, AfterViewInit {
       this.isBackgroundShown = ['/', '/home'].includes(navRecords.presentRoute);
       this.varHostClassName = 'host-' + this.siteTheme.toLowerCase();
 
-      // setTimeout(() => startStars(), 300);
-      if (!!this.isBackgroundShown) setTimeout(() => CometAnimation.start(), 0);
-      if (!this.isBackgroundShown)
-        setTimeout(() => {
-          if (!this.isBackgroundShown) CometAnimation.stop();
-        }, 1500);
+      if (false) setTimeout(() => startStars(), 300);
+      if (!false) {
+        if (!!this.isBackgroundShown) setTimeout(() => CometAnimation.start(), 0);
+        if (!this.isBackgroundShown)
+          setTimeout(() => {
+            if (!this.isBackgroundShown) CometAnimation.stop();
+          }, 1500);
+      }
     });
 
     //

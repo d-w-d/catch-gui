@@ -21,7 +21,9 @@
       class="edit-fab"
       [ngClass]="{ 'raise-button': isButtonRaised }"
     >
-      <mat-icon>{{ isFits ? 'image' : 'build' }}</mat-icon>
+      <!-- <mat-icon>{{ isFits ? 'image' : 'build' }}</mat-icon> -->
+      <mat-icon *ngIf="!!isFits">{{ 'image' }}</mat-icon>
+      <span *ngIf="!isFits" style="font-weight: bold;">{{ 'FITS' }}</span>
     </button>
   </ng-container>
   <ng-template #loading>

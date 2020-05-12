@@ -39,6 +39,8 @@ export class NeatDataCheckboxesComponent implements OnInit, OnDestroy {
     private neatInitColsService: NeatInitialDataColumnsService,
     private store: Store<AppState>
   ) {
+    // console.log('Hmmm...');
+
     this.allColNames = this.neatInitColsService.getOrderedColNames();
 
     this.subscriptions.add(
@@ -55,7 +57,7 @@ export class NeatDataCheckboxesComponent implements OnInit, OnDestroy {
     );
 
     this.latestData$ = combineLatest([
-      interval(500).pipe(
+      interval(50).pipe(
         map(_ =>
           this.checkboxesContainer ? this.checkboxesContainer.nativeElement.offsetWidth : 100
         ),
